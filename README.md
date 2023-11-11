@@ -1,450 +1,66 @@
-# [CieloPOS ](https://www.usth.edu.vn/live/argon-dashboard-pro-laravel)
-![version](https://img.shields.io/badge/version-3.0.1-blue.svg) 
-[![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/ct-argon-dashboard-pro-laravel.svg)](https://github.com/creativetimofficial/ct-argon-dashboard-pro-laravel/issues) 
-[![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/ct-argon-dashboard-pro-laravel.svg)](https://github.com/creativetimofficial/ct-argon-dashboard-pro-laravel/issues?q=is%3Aissue+is%3Aclosed)
-
-
-*Frontend version*: Argon Dashboard v2.0.1. More info at  https://www.usth.edu.vn/product/argon-dashboard-pro
-
-[<img src="https://s3.amazonaws.com/creativetim_bucket/products/146/original/argon-dashboard-pro-laravel.jpg" width="100%" />](https://argon-dashboard-pro-laravel.usth.edu.vn) 
-
-## Free demo
-Check out the open-source demo version for a taste of what Argon Dashboard PRO Laravel has to offer https://www.usth.edu.vn/product/argon-dashboard-laravel
-
-## Table of Contents
-* [Prerequisites](#prerequisites)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Versions](#versions)
-* [Demo](#demo)
-* [Documentation](#documentation)
-* [Login](#login)
-* [Register](#register)
-* [Forgot Password](#forgot-password)
-* [Reset Password](#reset-password)
-* [User Profile](#my-profile)
-* [User Management](#user-management)
-* [Role Management](#role-management)
-* [Category Management](#category-management)
-* [Tag Management](#tag-management)
-* [Item Management](#item-management)
-* [File Structure](#file-structure)
-* [Browser Support](#browser-support)
-* [Reporting Issues](#reporting-issues)
-* [Licensing](#licensing)
-* [Useful Links](#useful-links)
-* [Social Media](#social-media)
-* [Credits](#credits)
-## Prerequisites
-If you don't already have an Apache local environment with PHP and MySQL, use one of the following links:
- - Windows: https://VHZ.IO/blog/post/beginner-s-guide-to-setting-up-your-local-development-environment-on-windows
- - Linux: https://howtoubuntu.org/how-to-install-lamp-on-ubuntu
- - Mac: https://wpshout.com/quick-guides/how-to-install-mamp-on-your-mac/
-Also, you will need to install Composer: https://getcomposer.org/doc/00-intro.md   
-And Laravel: https://laravel.com/docs/9.x/installation
-## Installation
-1. Unzip the downloaded archive
-2. Copy and paste **argon-dashboard-pro-laravel-master** folder in your **projects** folder. Rename the folder to your project's name
-3. In your terminal run `composer install`
-4. Copy `.env.example` to `.env` and updated the configurations (mainly the database configuration: database name, user name and password, set the APP_URL to the right path)
-5. In your terminal run `php artisan key:generate`
-6. Run `php artisan migrate --seed` to create the database tables and seed the roles and users tables
-7. Run `php artisan storage:link` to create the storage symlink (if you are using **Vagrant** with **Homestead** for development, remember to ssh into your virtual machine and run the command from there).
-
-## Usage
-Register a user or login with the default users with different roles from your database and start testing (make sure to run the migrations and seeders for these credentials to be available):
-* **admin@pos.vhz.io** and password **secret**
-* **creator@pos.vhz.io** and password **secret**
-* **member@pos.vhz.io** and password **secret**
-
-Besides the numerous types of dashboard, you can find pages for editing your profile, pages for managing the users, the roles, the items, the categories and the tags. There are also static pages for profile, for users, for projects, for accounts, for various applications, for ecommerce and different styles of pages for authentication. All the necessary files are installed out of the box and all the needed routes are added to `routes/web.php`. Keep in mind that all of the features can be viewed once you login using the credentials provided or by registering your own user. 
-
-## Versions
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/html-logo.jpg" width="60" height="60" />](https://www.usth.edu.vn/product/argon-dashboard)
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/react-logo.jpg" width="60" height="60" />](https://www.usth.edu.vn/product/argon-dashboard-react)
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/vue-logo.jpg" width="60" height="60" />](https://www.usth.edu.vn/product/vue-argon-dashboard)
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/angular-logo.jpg" width="60" height="60" />](https://www.usth.edu.vn/product/argon-dashboard-angular)
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/aspnet-logo.jpg" width="60" height="60" />](https://www.usth.edu.vn/product/argon-dashboard-asp-net)
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/nodejs-logo.jpg" width="60" height="60" />](https://www.usth.edu.vn/product/argon-dashboard-nodejs)
-[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/laravel_logo.png" width="60" height="60" />](https://www.usth.edu.vn/product/argon-dashboard-laravel)
-
-
-
-| HTML  | Vue | Laravel |
-| --- | --- | --- |
-| [![Argon Dashboard HTML](https://s3.amazonaws.com/creativetim_bucket/products/137/thumb/argon-dashboard-pro.jpg)](https://www.usth.edu.vn/product/argon-dashboard-pro) | [![Vue Argon Dashboard ](https://s3.amazonaws.com/creativetim_bucket/products/159/thumb/vue-argon-dashboard-pro.jpg)](https://www.usth.edu.vn/product/vue-argon-dashboard-pro) | [![Argon Dashboard Laravel](https://s3.amazonaws.com/creativetim_bucket/products/146/original/argon-dashboard-pro-laravel.jpg)](https://www.usth.edu.vn/product/argon-dashboard-pro-laravel) |
-
-## Demo
-| Register | Login | 
-| --- | --- | 
-| [<img src="public/screens/register.png" width="483" />](https://argon-dashboard-pro-laravel.usth.edu.vn/register) | [<img src="public/screens/login.png" width="483" />](https://argon-dashboard-pro-laravel.usth.edu.vn/login)  
-
-| Forgot Password Page | Reset Password Page | 
-| --- | --- | 
-| [<img src="public/screens/reset-password.png" width="483" />](https://argon-dashboard-pro-laravel.usth.edu.vn/reset-password) | [<img src="public/screens/change-password.png" width="483" />](https://argon-dashboard-pro-laravel.usth.edu.vn/change-password) 
-
-| Dashboard | Virtual Reality  |
-| ---  | ---  |
-| [<img src="public/screens/dashboard.jpg" width="480" />](https://argon-dashboard-pro-laravel.usth.edu.vn/dashboard) | [<img src="public/screens/vr.png" width="484"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/vr-default)
-
-| Profile Page | User Management |
-| ---  | ---  |
-| [<img src="public/screens/profile.png" width="485"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/user-profile) | [<img src="public/screens/user-management.png" width="475"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/user-management)
-
-| Role Management | Item Management  |
-| --- | --- | 
-| [<img src="public/screens/role-management.png" width="483"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/role-management)| [<img src="public/screens/item-management.png" width="483"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/item-management)
-
-| Category Management | Tag Management | 
-| --- | --- |
-| [<img src="public/screens/category-management.png" width="483"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/category-management) | [<img src="public/screens/tag-management.png" width="483"/>](https://argon-dashboard-pro-laravel.usth.edu.vn/tag-management)
-[View More](https://www.usth.edu.vn/live/argon-dashboard-pro-laravel)
-
-## Documentation
-The documentation for the Material Dashboard Laravel is hosted at our [website](https://www.usth.edu.vn/live/argon-dashboard-pro-laravel/docs/bootstrap/overview/argon-dashboard/index.html).
-
-### Login
-If you are not logged in you can only access this page or the Sign Up page. The default url takes you to the login page where you use the default credentials **admin@pos.vhz.io** with the password **secret** but you can change them with the credentials for creator and for member. Logging in is possible only with already existing credentials. For this to work you should have run the migrations. The user also has the option to choose if he wants to be remembered or not.
-
-The `App/Http/Controllers/App/LoginController.php` handles the logging in of an existing user.
-
-```
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/');
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
-    }
-```
-
-### Register
-You can register as a user by filling in the name, email, role and password for your account. For your role you can choose between the Admin, Creator and Member. It is important to know that an admin user has access to all the pages and actions, can delete, add and edit another users, other roles, items, tags or categories; a creator user has acces to category, tag and item management, but can not add, edit or delete other users; a member user has access to the item management but can not take any actions. You can do this by accessing the sign up page from the "**Sign Up**" button in the top navbar or by clicking the "**Sign Up**" button from the bottom of the log in form. Another simple way is adding **/register** in the url.
-
-The `App/Http/Controllers/Auth/RegisterController.php` handles the registration of a new user.
-
-```
-    $user = User::create([
-        'firstname' => $attributes['firstname'],
-        'email' => $attributes['email'],
-        'role_id' => $attributes['role'],
-        'password' => $attributes['password']
-    ]);
-    auth()->login($user);
-```
-
-### Forgot Password
-If a user forgets the account's password it is possible to reset the password. For this the user should click on the "**here**" under the login form.
-
-The `App/Http/Controllers/Auth/ResetPassword.php` takes care of sending an email to the user where he can reset the password afterwards.
-
-```
-    public function send(Request $request)
-    {
-        $email = $request->validate([
-            'email' => ['required']
-        ]);
-        $user = User::where('email', $email)->first();
-
-        if ($user) {
-            $this->notify(new RecoverPassword($user->id));
-            return back()->with('succes', 'An email was send to your email address');
-        }
-    }
-```
-
-### Reset Password
-The user who forgot the password gets an email on the account's email address. The user can access the reset password page by clicking the button found in the email. The link for resetting the password is available for 12 hours. The user must add the new password and confirm the password for his password to be updated. The user is redirected to the login page.
-
-The `App/Http/Controllers/Auth/ChangePassword.php` helps the user reset the password.
-
-```
-    if ($existingUser) {
-        $existingUser->update([
-            'password' => $attributes['password']
-        ]);
-        return redirect('login');
-    } else {
-        return back()->with('error', 'Your email does not match the email who requested the password change');
-    }
-```
-
-### User Profile
-The profile can be accessed by a logged in user by clicking "**User Profile**" from the sidebar or adding **/user-profile** in the url. The user can add information like phone number, location or change name, email and password.
-
-The `App/Http/Controllers/UserController.php` handles the user's profile information.
-
-```
-    $user = User::create([
-        'firstname' => $request->get('firstname'),
-        'lastname' => $request->get('lastname'),
-        'password' => $request->get('password'),
-        'role_id' => $request->get('role'),
-        'email' => $request->get('email'),
-        'gender' => $request->get('gender'),
-        'location' => $request->get('location'),
-        'phone' => $request->get('phone'),
-        'language' => $request->get('language'),
-        'birthday' => $birthday,
-        'skills' => $request->get('skills')
-    ]);
-
-    if($request->file('avatar')) {
-        $user->update([
-            'avatar' => $request->file('avatar')->store('/', 'avatars')
-        ]);
-    }
-    }
-```
-
-### User Management
-The user management can be accessed by clicking "**User Management**" from the **Laravel Examples** section from the sidebar or by adding "**/user-management** in the url. This page is available for users with the **Admin** role and the user is able to **add**, **edit** and **delete** other users. For adding a new user you can press the "**Add User**". If you would like to edit or delete an user you can click on the **Action** column. It is also possible to sort the fields or to change pagination.
-
-On the page for adding a new user you will find a form which allows you to fill the information. All pages are generated using blade templates.
-
-The `App/Http/Controllers/UserController.php ` takes care of data validation and creating, editing and removing a user:
-
-```
-    public function destroy($id)
-    {
-        $user = User::find($id);
-        $user->delete();
-        return redirect()->route('user-management')->with('succes', 'The user was deleted');
-    }
-```
-Once the user pressed **Send** at the end of the form the new user is added to the table.
-For authorizing this actions have been used policies such as `App\Policies\UserPolicy`:
-```
-    /**
-     * Determine whether the authenticate user can manage other users.
-     */
-    public function manageUsers(User $user)
-    {
-        return $user->isAdmin();
-    }
-```
-
-### Role Management
-The PRO version lets you add and edit roles to the user. The default roles are **Admin**, **Creator**  and **Member**. The role management can be accessed by clicking "**Role Management**" from the **Laravel Examples** section of the sidebar or by adding "**/role-management** in the url. This page is available for users with the **Admin** role and the user is able to **add**, **edit** and **delete** roles. For adding a new role you can press the "**Add Role**" button. If you would like to edit or delete a role you can click on the **Action** column. It is also possible to sort the fields or to search in the fields.
-
-On the page for adding a new role you will find a form which allows you to fill the name and the description of the new role.
-
-The `App/Http/Controllers/RoleController.php ` takes care of data validation and creation of a the new role:
-
-```
-    public function update($id)
-    {
-        $this->authorize('manage-users', User::class);
-        $role = Role::find($id);
-
-        $attributes = request()->validate([
-            'name' => ['required',  Rule::unique('roles')->ignore($role->id)],
-            'description' => 'required'
-        ]);
-
-        $role->update($attributes);
-
-        return redirect()->route('role-management')->with('succes', 'role succesfully updated');
-    }
-```
-
-### Category Management
-The theme has some default categories but an **Admin** or **Creator** user can manage these categories.The category management can be accessed by clicking "**Category Management**" from the **Laravel Examples** section of the sidebar or by adding "**/category-management** in the url. The authenticated user can **add**, **edit** and **delete** categories. For adding a new category you can press the "**Add Category**" button. If you would like to edit or delete a category you can click on the **Action** column. It is also possible to sort the fields or to search in the fields.
-
-On the page for adding a new category you will find a form which allows you to fill the name and the description of the new category.
-
-The `App/Http/Controllers/CategoryController.php ` takes care of data validation when changing a category and updating it:
-
-```
-    public function update($id)
-    {
-        $this->authorize('manage-items', User::class);
-        $category = Category::find($id);
-
-        $attributes = request()->validate([
-            'name' => ['required', Rule::unique('categories')->ignore($category->id)],
-            'description' => 'required'
-        ]);
-
-        $category->update($attributes);
-
-        return redirect()->route('category-management')->with('succes', 'Category succesfully updated');
-    }
-```
-
-### Tag Management
-The theme has some default tags but an **Admin** or **Creator** user can manage these tags.The tag management can be accessed by clicking "**Tag Managmenet**" from the **Laravel Examples** section from the sidebar or by adding "**/tag-management** in the url. The authenticated user can **add**, **edit** and **delete** tags. For adding a new tag you can press the "**Add Tag**" button. If you would like to edit or delete a tag you can click on the **Action** column. It is also possible to sort the fields or to search in the fields.
-
-On the page for adding a new category you will find a form which allows you to fill the name and the description of the new tag and on the edit page you will find a similar form for the changes you wish to make.
-
-The `/resources/views/laravel/tag/edit.blade.php` is the blade template for editing a tag:
-
-```
-    <label for="name" class="form-label">Name</label>
-    <div class="mb-3">
-        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $tag->name) }}">
-        @error('name')
-            <p class='text-danger text-xs'> {{ $message }} </p>
-        @enderror
-    </div>
-```
-
-### Item Management
-Item Management is the most advanced example included in the PRO theme because every item has a picture, has a category and has multiple tags. The item management can be accessed by clicking "**Item Management**" from the **Laravel Examples** section of the sidebar or by adding "**/item-management** in the url. The authenticated user as an Admin or Creator can **add**, **edit** and **delete** items. For adding a new item you can press the "**Add Item**" button. If you would like to edit or delete an item you can click on the **Action** column. It is also possible to sort the fields or to search in the fields. The Member user can not take any actions on the item, he is only able to see the item management table.
-
-On the page for adding a new item you will find a form which allows you to add an image of the item, to  fill the name, description of the item, a dropdown to choose the category and a multiselect for the tags.
-
-The `App/Http/Controllers/ItemController.php` takes care of data validation when adding a new item and of the item creation(see snippet below):
-
-```
-    public function store(Request $request)
-    {
-        $attributes = request()->validate([
-            'name' => ['required', 'unique:items'],
-            'excerpt' => ['max:100'],
-            'description' => ['max:255'],
-            'choices-category' => ['required'],
-            'tags' => ['required'],
-        ]);
-
-        $item = Item::create([
-            'name' => $request->get('name'),
-            'excerpt' => $request->get('excerpt'),
-            'description' => $request->get('description'),
-            'category_id' => $request->get('choices-category'),
-            'date' => $request->get('date'),
-            'status' => $request->get('status'),
-            'show_on_homepage' => $request->get('show_on_homepage'),
-            'options' => $request->get('option')
-        ]);
-
-        $item->tags()->attach($request->get('tags'));
-
-        if($request->file('picture')) {
-            $item->update([
-                'picture' => $request->file('picture')->store('/', 'items')
-            ]);
-        }
-
-        return redirect()->route('item-management')->with('succes', 'Item succesfully saved');
-    }
-```
-
-## File Structure
-```
-app
- ┣ Console
- ┃ ┣ Commands
- ┃ ┃ ┗ Ressed
- ┃ ┗ Kernel.php
- ┣ Exceptions
- ┃ ┗ Handler.php
- ┣ Http
- ┃ ┣ Controllers
- ┃ ┃ ┣ Auth
- ┃ ┃ ┃ ┣ ChangePassword.php
- ┃ ┃ ┃ ┣ LoginController.php
- ┃ ┃ ┃ ┣ RegisterController.php
- ┃ ┃ ┃ ┗ ResetPassword.php
- ┃ ┃ ┣ CategoryController.php
- ┃ ┃ ┣ Controller.php
- ┃ ┃ ┣ ItemController.php
- ┃ ┃ ┣ PageController.php
- ┃ ┃ ┣ ProfileController.php
- ┃ ┃ ┣ RoleController.php
- ┃ ┃ ┣ TagController.php
- ┃ ┃ ┗ UserController.php
- ┃ ┣ Middleware
- ┃ ┃ ┣ Authenticate.php
- ┃ ┃ ┣ EncryptCookies.php
- ┃ ┃ ┣ PreventRequestsDuringMaintenance.php
- ┃ ┃ ┣ RedirectIfAuthenticated.php
- ┃ ┃ ┣ TrimStrings.php
- ┃ ┃ ┣ TrustHosts.php
- ┃ ┃ ┣ TrustProxies.php
- ┃ ┃ ┗ VerifyCsrfToken.php
- ┃ ┗ Kernel.php
- ┣ Models
- ┃ ┣ Category.php
- ┃ ┣ Item.php
- ┃ ┣ Role.php
- ┃ ┣ Tag.php
- ┃ ┗ User.php
- ┣ Notifications
- ┃ ┗ RecoverPassword.php
- ┣ Policies
- ┃ ┣ CategoryPolicy.php
- ┃ ┣ ItemPolicy.php
- ┃ ┣ RolePolicy.php
- ┃ ┣ TagPolicy.php
- ┃ ┗ UserPolicy.php
- ┗ Providers
- ┃ ┣ AppServiceProvider.php
- ┃ ┣ AuthServiceProvider.php
- ┃ ┣ BroadcastServiceProvider.php
- ┃ ┣ EventServiceProvider.php
- ┃ ┗ RouteServiceProvider.php
- ```
-
-## Browser Support
-At present, we officially aim to support the last two versions of the following browsers:
-
-<img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
-
-## Reporting Issues
-We use GitHub Issues as the official bug tracker for the Soft UI Dashboard. Here are some advices for our users that want to report an issue:
-
-1. Make sure that you are using the latest version of the Material Dashboard. Check the CHANGELOG from your dashboard on our [website](https://www.usth.edu.vn/product/material-dashboard-pro-laravel).
-2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
-3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
-
-## Licensing
-- Copyright 2022 [USTH](https://www.usth.edu.vn?ref=readme-md2pl)
-- USTH [license](https://www.usth.edu.vn/license?ref=readme-md2pl)
-
-## Useful Links
-- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
-- [Affiliate Program](https://www.usth.edu.vn/affiliates/new) (earn money)
-- [Blog USTH](http://blog.usth.edu.vn/)
-- [Free Products](https://www.usth.edu.vn/bootstrap-themes/free) from USTH
-- [Premium Products](https://www.usth.edu.vn/bootstrap-themes/premium?ref=md2pl-readme) from USTH
-- [React Products](https://www.usth.edu.vn/bootstrap-themes/react-themes?ref=md2pl-readme) from USTH
-- [VueJS Products](https://www.usth.edu.vn/bootstrap-themes/vuejs-themes?ref=md2pl-readme) from USTH
-- [More products](https://www.usth.edu.vn/bootstrap-themes?ref=md2pl-readme) from USTH
-- Check our Bundles [here](https://www.usth.edu.vn/bundles??ref=md2pl-readme)
-
-### Social Media
-
-### USTH
-Twitter: <https://twitter.com/CreativeTim?ref=md2pl-readme>
-
-Facebook: <https://www.facebook.com/CreativeTim?ref=md2pl-readme>
-
-Dribbble: <https://dribbble.com/creativetim?ref=md2pl-readme>
-
-Instagram: <https://www.instagram.com/CreativeTimOfficial?ref=md2pl-readme>
-
-### VHZ:
-
-Twitter: <https://twitter.com/VHZ?ref=md2pl-readme>
-
-Facebook: <https://www.facebook.com/VHZ?ref=md2pl-readme>
-
-Linkedin: <https://www.linkedin.com/company/VHZ?ref=md2pl-readme>
-
-VHZ Blog: <https://VHZ.IO/blog/?ref=md2pl-readme>
-
-## Credits
-
-- [USTH](https://usth.edu.vn/?ref=md2pl-readme)
-- [VHZ](https://VHZ.IO)
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
+
+## About Laravel
+
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
+
+## Learning Laravel
+
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+
+## Laravel Sponsors
+
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
+
+## Contributing
+
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

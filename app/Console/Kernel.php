@@ -9,27 +9,16 @@ class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        $hour = config('app.hour');
-        $min = config('app.min');
-        $scheduledInterval = $hour !== '' ? ( ($min !== '' && $min != 0) ?  $min .' */'. $hour .' * * *' : '0 */'. $hour .' * * *') : '*/'. $min .' * * * *';
-        if (config('app.is_demo')){
-            $schedule->command('migrate:fresh --seed')->cron($scheduledInterval);
-            $schedule->command('image:seed')->cron($scheduledInterval);
-        }
+        // $schedule->command('inspire')->hourly();
     }
 
     /**
      * Register the commands for the application.
-     *
-     * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 

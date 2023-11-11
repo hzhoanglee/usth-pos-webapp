@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use MongoDB\Laravel\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Storage;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,20 +19,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'firstname',
-        'lastname',
-        'email',
-        'password',
-        'gender',
-        'location',
-        'phone',
-        'language',
-        'skills',
-        'role_id',
-        'birthday',
-        'avatar'
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,45 +38,16 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
-    /**
-     * Always encrypt the password when it is updated.
-     *
-     * @param $value
-    * @return string
-    */
-    public function setPasswordAttribute($value)
+    public function canAccessPanel(Panel $panel): bool
     {
-        $this->attributes['password'] = bcrypt($value);
+        return true;
     }
 
-    public function avatarUrl() {
-        return $this->avatar ? Storage::disk('avatars')->url($this->avatar) : '/assets/img/team-3.jpg';
-    }
-
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(Role::class);
-    }
-
-    /**
-     * Check if the user is admin
-     */
-    public function isAdmin() {
-        return $this->role_id === 1;
-    }
-
-    /**
-     * Check if the user is creator
-     */
-    public function isCreator() {
-        return $this->role_id === 2;
-    }
-
-    /**
-     * Check if the user is member
-     */
-    public function isMember() {
-        return $this->role_id === 3;
     }
 }
