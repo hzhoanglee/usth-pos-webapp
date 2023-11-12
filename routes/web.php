@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::get('/my-role', [App\Http\Controllers\RoleController::class, 'myRole']);
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logOut'])->name('logout');
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'logIn'])->name('login');
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/screen/{screen}', [App\Http\Controllers\CartController::class, 'index'])->name('cart.screen');
@@ -29,4 +30,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {
     Route::get('/app/{screen}', [App\Http\Controllers\POSController::class, 'index'])->name('pos.app');
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => '/notify', ], function () {
+    Route::get('/zalo', [App\Http\Controllers\NotificationController::class, 'sendZalo'])->name('notify.zalo.test');
 });

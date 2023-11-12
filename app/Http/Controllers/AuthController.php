@@ -13,5 +13,10 @@ class AuthController extends Controller
         return redirect(Filament::getLoginUrl());
     }
 
+    public function logIn()
+    {
+        return redirect(Filament::getLoginUrl());
+    }
+
 
 }
