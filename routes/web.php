@@ -18,4 +18,15 @@ Route::get('/', function () {
 });
 
 Route::get('/my-role', [App\Http\Controllers\RoleController::class, 'myRole']);
-Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logOut']);
+Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logOut'])->name('logout');
+
+Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
+    Route::get('/screen/{screen}', [App\Http\Controllers\CartController::class, 'index'])->name('cart.screen');
+    Route::post('/add-to-cart', [App\Http\Controllers\CartController::class, 'addToCart'])->name('cart.add-to-cart');
+    Route::get('/clear/{cart_id}', [App\Http\Controllers\CartController::class, 'clearCart'])->name('cart.clear-cart');
+    Route::post('/clear', [App\Http\Controllers\CartController::class, 'clearCartRoute'])->name('cart.clear-cart-route');
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {
+    Route::get('/app/{screen}', [App\Http\Controllers\POSController::class, 'index'])->name('pos.app');
+});
