@@ -28,9 +28,9 @@ class ApplyRole extends Command
         $users = \App\Models\User::all();
         foreach ($users as $user) {
             if($user->email == "admin@vhz.io") {
-                $user->role_id = \App\Models\Role::where('role_code', 'user_admin')->first()->id;
+                $user->role_id = "user_admin";
             } else {
-                $user->role_id = \App\Models\Role::where('role_code', 'user_cashier')->first()->id;
+                $user->role_id = "user_cashier";
             }
             $user->save();
         }
