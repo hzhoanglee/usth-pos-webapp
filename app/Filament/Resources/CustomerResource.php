@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
-use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -78,12 +77,11 @@ class CustomerResource extends Resource
                         #->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer image')),
-                ])->columns(2),
-
+                ]),
                 Forms\Components\Repeater::make('fields')->columnSpan(3)
                     ->label('Additional Information')
                     ->schema([
-                        Forms\Components\TextInput::make('age')
+                        Forms\Components\TextInput::make('name')
                             ->name(__('customer.Customer Field'))
                             ->autofocus()
                             #->required()
@@ -91,8 +89,8 @@ class CustomerResource extends Resource
                             ->placeholder(__('customer.Customer Field'))->columnSpan(3),
                     ])
             ]);
-
     }
+
 
     public static function table(Table $table): Table
     {

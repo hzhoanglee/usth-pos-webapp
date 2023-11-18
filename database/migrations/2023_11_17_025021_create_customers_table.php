@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Schema as SchemaAlias;
 
 return new class extends Migration
 {
@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        SchemaAlias::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name',200)->default(null);
             $table->string('mobile', 200)->nullable()->default(null);
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        SchemaAlias::dropIfExists('customers');
     }
 };
