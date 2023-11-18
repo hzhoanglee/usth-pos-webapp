@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name',200)->default(null);
             $table->string('mobile', 200)->nullable()->default(null);
             $table->string('email', 200)->nullable()->default(null);
+            $table->json('details')->nullable();
             $table->string('face', 2000)->default(null);
             $table->string('address', 200)->nullable()->default(null);
             $table->string('zalo_number', 200)->nullable()->default(null);

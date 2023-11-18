@@ -11,5 +11,10 @@ return [
     'Customer Zalo' => 'Customer Zalo',
     'Customer credit' => 'Customer credit',
     'Customer age' => 'Customer age',
-    'Customer image' => 'Customer image'
+    'Customer image' => 'Customer image',
+    'Customer Field' => 'Customer Field',
+    'Additional Information' => 'Additional Information',
+    'Blood type'=>'Blood type',
+    'Allergy' => 'Allergy',
+    'Specific symptoms' => 'Specific symptoms'
 ];

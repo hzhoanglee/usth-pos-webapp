@@ -78,10 +78,15 @@ class CustomerResource extends Resource
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer image')),
                 ]),
-                Forms\Components\Repeater::make('fields')->columnSpan(3)
-                    ->label('Additional Information')
+                Forms\Components\Repeater::make('details')->columnSpan(3)
+                    ->label(__('customer.Additional Information'))
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        Forms\Components\Select::make('type')->options([
+                            'Blood type' => __('customer.Blood type'),
+                            'Allergy' => __('customer.Allergy'),
+                            'Symptoms' => __('customer.Specific symptoms')
+                        ]),
+                        Forms\Components\TextInput::make('Value')
                             ->name(__('customer.Customer Field'))
                             ->autofocus()
                             #->required()
