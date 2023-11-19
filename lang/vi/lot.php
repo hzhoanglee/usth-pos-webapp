@@ -8,6 +8,6 @@ return [
     'SKU' => 'SKU',
     'Expired date' => 'Ngày hết hạn',
     'Lot name' => 'Tên lô hàng',
-    'Imported by' => 'Imported by',
+    'Imported by' => 'Người nhập lô',
 
 ];

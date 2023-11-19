@@ -15,6 +15,8 @@ return[
     'Additional Information' => 'Phụ lục khách hàng',
     'Blood type' => 'Nhóm máu',
     'Allergy' => 'Dị ứng',
-    'Specific symptoms' => 'Các triệu chứng khác'
+    'Specific symptoms' => 'Các triệu chứng khác',
+    'Customer Information' => 'Thông tin khách hàng',
+    'Type' => 'Loại chú thích'
 
 ];
