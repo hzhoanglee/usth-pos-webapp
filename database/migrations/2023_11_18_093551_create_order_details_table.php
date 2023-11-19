@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->float('Subtotal', 8, 2)->nullable()->default(null);
+            $table->float('Unit Price', 8, 2)->nullable()->default(null);
             $table->string('Quantity',191)->nullable()->default(null);
             $table->enum('status', ['OK', 'Refund'])->default('OK');
             $table->foreignId('OrderID')->nullable()->default(null)->constrained('orders');

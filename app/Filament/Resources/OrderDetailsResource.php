@@ -35,6 +35,13 @@ class OrderDetailsResource extends Resource
                     ->autocomplete(false)
                     ->placeholder(__('orderdetails.Product ID')),
 
+                Forms\Components\TextInput::make('Unit Price')
+                    ->name(__('orderdetails.Unit Price'))
+                    ->required()
+                    ->numeric()
+                    ->autocomplete(false)
+                    ->placeholder(__('orderdetails.Unit Price')),
+
 
                 Forms\Components\TextInput::make('Quantity')
                     ->name(__('orderdetails.Quantity'))
@@ -73,6 +80,9 @@ class OrderDetailsResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ProductID')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('Unit Price')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Quantity')
