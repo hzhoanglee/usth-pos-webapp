@@ -275,7 +275,23 @@
             </div>
 
         </div>
-        <div class="cart-middle"></div>
+        <div class="cart-middle scrollableContainer">
+            <table id="middle-table">
+                <thead>
+                <tr>
+                    <th>Item name</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Photo</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
         <div class="cart-bottom">
             <hr>
             <div class="checkout">
@@ -410,10 +426,8 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script
-    src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script>
     function add_to_cart(product_id) {
         $.ajax({
@@ -428,13 +442,23 @@
             },
             success: function(data) {
                 console.log(data);
+                update_cart();
             }
         });
     }
+
+    function remove_from_cart(product_id, type) {
+        alert("So, you want to remove product "+product_id + ' with type ' + type + ". Let do it later...");
+    }
+
+    function update_quantity(product_id, type, quantity) {
+        alert("So, you want to update product "+product_id + ' with type ' + type + " to " + quantity + ". Let do it later...");
+    }
+
     function clear_cart() {
         $.ajax({
             url: '{{route('cart.clear-cart-route')}}',
-            method: 'POST',
+            method: 'GET',
             data: {
                 _token: '{{csrf_token()}}',
                 screen_id : '{{$screen}}',
@@ -445,12 +469,7 @@
             }
         });
     }
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script>
     function updateDateTime() {
         var now = new Date();
         var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -461,10 +480,55 @@
         datetimeElement.textContent = formattedDateTime;
     }
 
-    // Update the date and time every second
-    setInterval(updateDateTime, 1000);
+    function update_cart() {
+        let cart_id = $('#cart_id').val();
+        $.ajax({
+            url: '{{route('cart.load-cart')}}/' + cart_id,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                display_product_list(data);
+            }
+        });
+    }
 
-    // Initial call to display the date and time
+    function display_product_list(products) {
+        let cart_table = $('#middle-table tbody');
+        cart_table.empty();
+        $.each(products, function(key, product) {
+            let product_id = key;
+            if (product[0] !== undefined) {
+                let row = $('<tr class="shadow bg-white rounded"></tr>');
+                let product_box = product[0];
+                let name = $('<td></td>').text(product_box.name);
+                let unit = $('<td></td>').text("Box(s)");
+                let price = $('<td></td>').text(product_box.price);
+                let qty = $('<td></td>').html('<input type="number" value="'+product_box.quantity+'" onchange="update_quantity(\''+product_id+'\', 0, this.value)">');
+                let photo = $('<td></td>').append($('<img>').attr('src', product_box.photo).css('width', '100px'));
+                let action = $('<td></td>').html('<button class="btn btn-danger" onclick="remove_from_cart(\''+product_id+'\', 0)">Remove</button>');
+                row.append(name, unit, price, qty, photo, action);
+                cart_table.append(row);
+            }
+            if (product[1] !== undefined) {
+                let row = $('<tr class="shadow bg-white rounded"></tr>');
+                let product_item = product[1];
+                let name = $('<td></td>').text(product_item.name);
+                let unit = $('<td></td>').text("Item(s)");
+                let price = $('<td></td>').text(product_item.price);
+                let qty = $('<td></td>').html('<input type="number" value="'+product_item.quantity+'" onchange="update_quantity(\''+product_id+'\', 1, this.value)">');
+                let photo = $('<td></td>').append($('<img>').attr('src', product_item.photo).css('width', '100px'));
+                let action = $('<td></td>').html('<button class="btn btn-danger" onclick="remove_from_cart(\''+product_id+'\', 1)">Remove</button>');
+                row.append(name, unit, price, qty, photo, action);
+                cart_table.append(row);
+            }
+        });
+    }
+
+
+</script>
+<script>
+    update_cart();
+    setInterval(updateDateTime, 1000);
     updateDateTime();
 </script>
 </body>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\NewProductToCart;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -14,23 +16,59 @@ class CartController extends Controller
         return view('cart.screen', compact('screen'));
     }
 
-    public function addToCart(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function addToCartRoute(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = $this->addProductToCart($request->screen_id, $request->product_id, $request->cart_id, $request->selling_type);
+        return response()->json($response, $response['code']);
+    }
+
+    public function addToCartByCode(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $screen_id = $request->input('screen_id');
-            $product_id = $request->input('product_id');
+            $product_id = Product::where('barcode', $request->barcode)->first();
+            $response = $this->addProductToCart($request->screen_id, $product_id->id, $request->cart_id, $request->selling_type);
+            return response()->json(['status' => true], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false], 500);
+        }
+    }
+
+    public function clearCartRoute(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = $this->clearCart($request->cart_id);
+        event(new \App\Events\NewProductToCart($request->cart_id, 1));
+        return response()->json($response, $response['code']);
+    }
+
+    public function loadCart($cart_id): \Illuminate\Http\JsonResponse
+    {
+        $cart = $this->getCart(intval($cart_id));
+        return response()->json($cart);
+    }
+
+    public function loadScreen($screen_id): \Illuminate\Http\JsonResponse
+    {
+        $cart = $this->getScreen(intval($screen_id));
+        return response()->json($cart);
+    }
+
+    // action functions
+    private function addProductToCart($screen_id, $product_id, $cart_id, $product_type): array
+    {
+        try {
             $product = Product::find($product_id);
-            $cart_id = intval($request->input('cart_id'));
+            $cart_id = intval($cart_id);
+            $product_type = intval($product_type);
+            $screen_id = intval($screen_id);
             if(!$product) {
-                return response(['status' => 'false', 'message' => 'Product not found!'], 500);
+                return ['status' => 'false', 'message' => 'Product not found!', 'code' => 404];
             }
-            $product_type = intval($request->input('selling_type')); // 0 for box, 1 for piece
             if($product_type != 0 && $product_type != 1) {
-                return response(['status' => 'false', 'message' => 'Invalid selling type!'], 500);
+                return ['status' => 'false', 'message' => 'Invalid selling type!', 'code' => 400];
             }
-            $cart = session()->get('cart_'.$cart_id);
-        } catch (\Throwable $th) {
-            return response(['status' => 'false', 'message' => $th->getMessage()], 500);
+            $cart = Cache::get('cart_'.$cart_id);
+        } catch (\Exception $e) {
+            return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
         }
         try {
             if(!$cart) {
@@ -63,29 +101,32 @@ class CartController extends Controller
                     ];
                 }
             }
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (\Exception $e) {
+            return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
         }
 
-        session()->put('cart_'.$cart_id, $cart);
+        Cache::put('cart_'.$cart_id, $cart);
+        Log::info('New product added to cart: '.$product_id.' - '.$product_type . ' - ' . $cart_id . ' - ' . $screen_id);
         event(new \App\Events\NewProductToCart($cart_id, $screen_id));
-        return response()->json(['status' => 'success', 'message' => 'Product added to cart successfully!'], 200);
-
+        return ['status' => 'success', 'message' => 'Product added to cart successfully!', 'code' => 200];
     }
 
-    public function clearCart($cart_id): \Illuminate\Http\JsonResponse
+    private function getCart($cart_id) {
+        return Cache::get('cart_'.$cart_id);
+    }
+
+    private function clearCart($cart_id): array
     {
-        session()->forget('cart_'.$cart_id);
-        event(new \App\Events\NewProductToCart($cart_id, 1));
-        return response()->json(['status' => 'success', 'message' => 'Cart cleared successfully!'], 200);
+        Cache::forget('cart_'.$cart_id);
+        return ['status' => 'success', 'message' => 'Cart cleared successfully!', 'code' => 200];
     }
 
-    public function clearCartRoute(Request $request)
-    {
-        $this->clearCart($request->cart_id);
+    private function getScreen($screen_id) {
+        return Cache::get('screen_'.$screen_id);
     }
 
-    public function loadCart(){
+    // playground
+    public function playground(Request $request) {
 
     }
 }

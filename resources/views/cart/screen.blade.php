@@ -74,6 +74,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/8.3.0/pusher.min.js"></script>
 <script>
+    // document on load
+    $(document).ready(function() {
+        update_screen();
+    });
+
     let pusher = new Pusher('lkey', {
         wsHost: 'socket.vslim.io',
         forceTLS: true,
@@ -86,9 +91,13 @@
 
     channel.bind('App\\Events\\NewProductToCart', function(data) {
         console.log("Cart updated");
-        let cart_table = $('#cart_table tbody');
         let products = data.cart;
         console.log(products);
+        update_cart(products);
+    });
+
+    function update_cart(products) {
+        let cart_table = $('#cart_table tbody');
         cart_table.empty();
         $.each(products, function(key, product) {
             if (product[0] !== undefined) {
@@ -113,7 +122,18 @@
                 row.append(name, unit, price, qty, photo);
                 cart_table.append(row);
             }
-
         });
-    });
+    }
+
+    function update_screen() {
+        let screen_id = {{$screen}};
+        $.ajax({
+            url: '{{route('cart.screen-data')}}/' + screen_id,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                update_cart(data);
+            }
+        });
+    }
 </script>
