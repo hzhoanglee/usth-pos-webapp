@@ -22,7 +22,9 @@ class CustomerResource extends Resource
     {
         return $form
             ->schema([
-                Section::make()->schema([
+                Section::make()
+                    ->label(__('customer.Customer Information'))
+                    ->schema([
                     Forms\Components\TextInput::make('name')->columnSpan(1)
                         ->name(__('customer.Customer name'))
                         ->autofocus()
@@ -78,21 +80,23 @@ class CustomerResource extends Resource
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer image')),
                 ]),
-                Forms\Components\Repeater::make('details')->columnSpan(3)
-                    ->label(__('customer.Additional Information'))
-                    ->schema([
-                        Forms\Components\Select::make('type')->options([
-                            'Blood type' => __('customer.Blood type'),
-                            'Allergy' => __('customer.Allergy'),
-                            'Symptoms' => __('customer.Specific symptoms')
-                        ]),
-                        Forms\Components\TextInput::make('Value')
-                            ->name(__('customer.Customer Field'))
-                            ->autofocus()
-                            #->required()
-                            ->autocomplete(false)
-                            ->placeholder(__('customer.Customer Field'))->columnSpan(3),
-                    ])
+                Section::make()->schema([
+                    Forms\Components\Repeater::make('details')->columnSpan(3)
+                        ->label(__('customer.Additional Information'))
+                        ->schema([
+                            Forms\Components\Select::make('type')->options([
+                                'Blood type' => __('customer.Blood type'),
+                                'Allergy' => __('customer.Allergy'),
+                                'Symptoms' => __('customer.Specific symptoms')
+                            ]),
+                            Forms\Components\TextInput::make('Value')
+                                ->name(__('customer.Customer Field'))
+                                ->autofocus()
+                                #->required()
+                                ->autocomplete(false)
+                                ->placeholder(__('customer.Customer Field'))->columnSpan(3),
+                        ])
+                ])
             ]);
     }
 
@@ -151,5 +155,9 @@ class CustomerResource extends Resource
             'create' => Pages\CreateCustomer::route('/create'),
             'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
+    }
+    public static function getPluralLabel(): ?string
+    {
+        return __('customer.Customer');
     }
 }

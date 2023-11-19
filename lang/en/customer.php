@@ -16,5 +16,6 @@ return [
     'Additional Information' => 'Additional Information',
     'Blood type'=>'Blood type',
     'Allergy' => 'Allergy',
-    'Specific symptoms' => 'Specific symptoms'
+    'Specific symptoms' => 'Specific symptoms',
+    'Customer Information' => 'Customer Information'
 ];
