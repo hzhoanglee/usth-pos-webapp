@@ -37,6 +37,7 @@ class TagResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tag_name')
+                    ->label(__('tag.Tag name'))
                 ->searchable()
                 ->sortable()
             ])
@@ -69,6 +70,9 @@ class TagResource extends Resource
         ];
     }
 
+    public static function getModelLabel(): String{
+        return __('tag.Tag');
+    }
     public static function getPluralLabel(): ?string
     {
         return __('tag.Tag');

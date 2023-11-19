@@ -68,21 +68,27 @@ class LotResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('lot_name')
+                    ->label(__('lot.Lot name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('lot_code')
+                    ->label(__('lot.Lot code'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('lot_price')
+                    ->label(__('lot.Import price'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sku_code')
+                    ->label(__('lot.SKU'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('expired_date')
+                    ->label(__('lot.Expired date'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('lot.Imported by'))
                     ->searchable()
                     ->sortable(),
 
@@ -116,6 +122,9 @@ class LotResource extends Resource
         ];
     }
 
+    public static function getModelLabel(): String{
+        return __('lot.Lot');
+    }
     public static function getPluralLabel(): ?string
     {
         return __('lot.Lot');
