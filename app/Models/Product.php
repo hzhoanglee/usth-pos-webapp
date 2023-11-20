@@ -8,4 +8,6 @@ use MongoDB\Laravel\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 }

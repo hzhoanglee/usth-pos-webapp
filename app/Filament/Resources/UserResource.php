@@ -23,7 +23,7 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $role_lists = Role::all()->pluck('role_name', 'id')->toArray();
+        $role_lists = Role::all()->pluck('role_name', 'role_code')->toArray();
         foreach ($role_lists as $key => $value) {
             $role_lists[$key] = __('manager.'.$value);
         }
