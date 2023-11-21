@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::post('/remove-from-cart', [App\Http\Controllers\CartController::class, 'removeCartItem'])->name('cart.remove-from-cart');
     Route::get('/clear', [App\Http\Controllers\CartController::class, 'clearCartRoute'])->name('cart.clear-cart-route');
     Route::get('/playground', [App\Http\Controllers\CartController::class, 'playground']);
+    Route::get('/search-product', [App\Http\Controllers\CartController::class, 'searchProduct'])->name('cart.search-cart');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {

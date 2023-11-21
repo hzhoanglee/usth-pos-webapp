@@ -59,6 +59,12 @@ class CartController extends Controller
         $cart = $this->getScreen(intval($screen_id));
         return response()->json($cart);
     }
+  
+    public function searchProduct(Request $request) {
+        $name = $request->name;
+        $product = Product::where('product_name','LIKE',"%$name%")->orwhere('barcode','LIKE',"%$name%")->get();
+        return response()->json($product);
+    }
 
     public function loadTotal($cart_id): \Illuminate\Http\JsonResponse
     {
@@ -121,6 +127,7 @@ class CartController extends Controller
                         'tax' => $product->tax
                     ];
                 }
+
             }
         } catch (\Exception $e) {
             return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
@@ -184,8 +191,7 @@ class CartController extends Controller
         return Cache::get('screen_' . $screen_id);
     }
 
-    private function placeProductHold($product_id, $quantity)
-    {
+    private function placeProductHold($product_id, $quantity) {
         $current_hold = $this->getProductHold($product_id);
         if ($current_hold == 0) {
             $current_hold = $quantity;
