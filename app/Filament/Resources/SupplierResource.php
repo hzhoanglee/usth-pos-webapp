@@ -30,7 +30,7 @@ class SupplierResource extends Resource
                     ->placeholder(__('supplier.Supplier Name')),
 
                 Forms\Components\TextInput::make('supplier_phone')
-                    ->name(__('supplier.Supplier Phone'))
+                    ->label(__('supplier.Supplier Phone'))
                     ->required()
                     ->autocomplete(false)
                     ->placeholder(__('supplier.Supplier Phone')),
@@ -48,12 +48,15 @@ class SupplierResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('supplier_name')
+                    ->label(__('supplier.Supplier Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('supplier_phone')
+                    ->label(__('supplier.Supplier Phone'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('reference_no')
+                    ->label(__('supplier.Reference No'))
                     ->searchable()
                     ->sortable()
             ])
@@ -88,6 +91,9 @@ class SupplierResource extends Resource
 
     public static function getPluralLabel(): ?string
     {
+        return __('supplier.Supplier');
+    }
+    public static function getModelLabel(): String{
         return __('supplier.Supplier');
     }
 }

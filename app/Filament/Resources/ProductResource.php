@@ -67,19 +67,19 @@ class ProductResource extends Resource
                             ->autocomplete(false)
                             ->placeholder(__('product.Price box discounted')),
                         Forms\Components\TextInput::make('limit_by_age')
-                            ->name(__('product.Limit by age'))
+                            ->label(__('product.Limit by age'))
                             ->autofocus()
                             #->required()
                             ->autocomplete(false)
                             ->placeholder(__('product.Limit by age')),
                         Forms\Components\TextInput::make('limit_per_order')
-                            ->name(__('product.Limit per order'))
+                            ->label(__('product.Limit per order'))
                             ->autofocus()
                             #->required()
                             ->autocomplete(false)
                             ->placeholder(__('product.Limit per order')),
                         Forms\Components\TextInput::make('SKU')
-                            ->name(__('product.SKU'))
+                            ->label(__('product.SKU'))
                             ->autofocus()
                             #->required()
                             ->autocomplete(false)

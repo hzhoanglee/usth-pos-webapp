@@ -3,7 +3,7 @@ return[
 
     'Customer' => 'Khách hàng',
     'Customer name' => 'Tên khách hàng',
-    'Phone number' => 'Số  điện thoại',
+    'Phone number' => 'Số điện thoại',
     'Customer email' => 'Email khách hàng',
     'Customer Face' => 'Nhận diện khuôn mặt',
     'Customer address' => 'Địa chỉ',

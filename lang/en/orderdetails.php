@@ -9,7 +9,8 @@ return [
     'Subtotal' => 'Subtotal',
     'Status' => 'Status',
     'OK' => 'OK',
-    'Refund' => 'Refund'
+    'Refund' => 'Refund',
+    'Unit Price' => 'Unit Price'
 
 ];
 

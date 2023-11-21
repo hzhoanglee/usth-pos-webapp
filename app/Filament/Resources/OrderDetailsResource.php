@@ -17,14 +17,14 @@ class OrderDetailsResource extends Resource
 {
     protected static ?string $model = OrderDetails::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('OrderID')
-                    ->name(__('orderdetails.Order ID'))
+                    ->label(__('orderdetails.Order ID'))
                     ->required()
                     ->autocomplete(false)
                     ->placeholder(__('orderdetails.Order ID')),
@@ -36,7 +36,7 @@ class OrderDetailsResource extends Resource
                     ->placeholder(__('orderdetails.Product ID')),
 
                 Forms\Components\TextInput::make('Unit Price')
-                    ->name(__('orderdetails.Unit Price'))
+                    ->label(__('orderdetails.Unit Price'))
                     ->required()
                     ->numeric()
                     ->autocomplete(false)
@@ -77,27 +77,33 @@ class OrderDetailsResource extends Resource
             ->columns([
 
                 Tables\Columns\TextColumn::make('OrderID')
+                    ->label(__('orderdetails.Order ID'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ProductID')
+                    ->label(__('orderdetails.Product ID'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Unit Price')
+                    ->label(__('orderdetails.Unit Price'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Quantity')
+                    ->label(__('orderdetails.Quantity'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Subtotal')
+                    ->label(__('orderdetails.Subtotal'))
                     ->searchable()
                     ->sortable(),
 
 
 
                 Tables\Columns\SelectColumn::make('status')
+                    ->label(__('orderdetails.Status'))
                     ->options([
-                        'OK' => 'OK',
-                        'Refund' => 'Refund',
+                        'OK' => __('orderdetails.OK'),
+                        'Refund' => __('orderdetails.Refund'),
                     ])
             ])
             ->filters([
@@ -133,4 +139,8 @@ class OrderDetailsResource extends Resource
     {
         return __('orderdetails.Order Details');
     }
+    public static function getModelLabel(): String{
+        return __('orderdetails.Order Details');
+    }
+
 }

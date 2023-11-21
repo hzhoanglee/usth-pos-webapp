@@ -17,7 +17,7 @@ class BankAccountResource extends Resource
 {
     protected static ?string $model = BankAccount::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-building-library';
 
     public static function form(Form $form): Form
     {
@@ -90,5 +90,13 @@ class BankAccountResource extends Resource
             'create' => Pages\CreateBankAccount::route('/create'),
             'edit' => Pages\EditBankAccount::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): String{
+        return __('bankaccount.Bank Account');
+    }
+    public static function getPluralLabel(): ?string
+    {
+        return __('bankaccount.Bank Account');
     }
 }
