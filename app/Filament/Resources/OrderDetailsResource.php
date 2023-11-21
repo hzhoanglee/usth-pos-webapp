@@ -19,6 +19,8 @@ class OrderDetailsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
+    protected static ?string $navigationGroup = 'Order Managements';
+
     public static function form(Form $form): Form
     {
         return $form

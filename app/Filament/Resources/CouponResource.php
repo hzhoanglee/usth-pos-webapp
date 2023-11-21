@@ -19,6 +19,8 @@ class CouponResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
+    protected static ?string $navigationGroup = 'Business Managements';
+
     public static function form(Form $form): Form
     {
         return $form

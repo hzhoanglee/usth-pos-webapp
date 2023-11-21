@@ -21,6 +21,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    protected static ?string $navigationGroup = 'System Managements';
     public static function form(Form $form): Form
     {
         $role_lists = Role::all()->pluck('role_name', 'role_code')->toArray();
