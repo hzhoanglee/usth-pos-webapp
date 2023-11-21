@@ -10,6 +10,8 @@ class POSController extends Controller
     {
         $screen = $request->screen;
         $products = \App\Models\Product::all();
+        notyf()->position('x', 'right')
+            ->position('y', 'top')->addSuccess('Hi, Have a nice day!');
         return view('pos.app', compact('screen', 'products'));
     }
 }
