@@ -352,7 +352,7 @@
         </div>
 
     </div>
-  <div class="screen_right">
+<div class="screen_right">
         <div class="categoryContainer">
             <h3>CATEGORY</h3>
             <div class="container">
@@ -443,12 +443,34 @@
             success: function(data) {
                 console.log(data);
                 update_cart();
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
         });
     }
 
     function remove_from_cart(product_id, type) {
-        alert("So, you want to remove product "+product_id + ' with type ' + type + ". Let do it later...");
+        // alert("So, you want to remove product "+product_id + ' with type ' + type + ". Let do it later...");
+        let item_id = '#product_' + product_id + '_' + type;
+        $(item_id).remove();
+        $.ajax({
+            url: '{{route('cart.remove-from-cart')}}',
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                _token: '{{csrf_token()}}',
+                screen_id : '{{$screen}}',
+                selling_type: type,
+                cart_id: $('#cart_id').val(),
+            },
+            success: function(data) {
+                console.log(data);
+                flasher.notyf.success(data.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }, error: function(data) {
+                update_cart();
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
     }
 
     function update_quantity(product_id, type, quantity) {
@@ -498,7 +520,7 @@
         $.each(products, function(key, product) {
             let product_id = key;
             if (product[0] !== undefined) {
-                let row = $('<tr class="shadow bg-white rounded"></tr>');
+                let row = $('<tr class="shadow bg-white rounded" id="product_' + product_id + '_' + '0' + '"></tr>');
                 let product_box = product[0];
                 let name = $('<td></td>').text(product_box.name);
                 let unit = $('<td></td>').text("Box(s)");
@@ -510,7 +532,7 @@
                 cart_table.append(row);
             }
             if (product[1] !== undefined) {
-                let row = $('<tr class="shadow bg-white rounded"></tr>');
+                let row = $('<tr class="shadow bg-white rounded" id="product_' + product_id + '_' + '1' + '"></tr>');
                 let product_item = product[1];
                 let name = $('<td></td>').text(product_item.name);
                 let unit = $('<td></td>').text("Item(s)");

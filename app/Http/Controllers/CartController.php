@@ -40,6 +40,12 @@ class CartController extends Controller
         return response()->json($response, $response['code']);
     }
 
+    public function removeCartItem(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $response = $this->removeFromCart($request->screen_id, $request->product_id, $request->cart_id, $request->selling_type);
+        return response()->json($response, $response['code']);
+    }
+
     public function loadCart($cart_id): \Illuminate\Http\JsonResponse
     {
         $cart = $this->getCart(intval($cart_id));
@@ -50,6 +56,12 @@ class CartController extends Controller
     {
         $cart = $this->getScreen(intval($screen_id));
         return response()->json($cart);
+    }
+  
+    public function searchProduct(Request $request) {
+        $name = $request->name;
+        $product = Product::where('product_name','LIKE',"%$name%")->orwhere('barcode','LIKE',"%$name%")->get();
+        return response()->json($product);
     }
 
     // action functions
@@ -71,6 +83,10 @@ class CartController extends Controller
             return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
         }
         try {
+//            $available_quantity = intval($product->quantity) - intval($this->getProductHold($product_id));
+//            if($available_quantity <= 0) {
+//                return ['status' => 'false', 'message' => 'No more product available, please try to add some or remove from the other cart.', 'code' => 400];
+//            }
             if(!$cart) {
                 if($product_type == 0) {
                     $price = $product->price_box_discounted;
@@ -107,9 +123,44 @@ class CartController extends Controller
         }
 
         Cache::put('cart_'.$cart_id, $cart);
+        $cart_quantity = 0;
+        if (array_key_exists(0, $cart[$product_id])) {
+            $cart_quantity = $cart[$product_id][0]['quantity'];
+        }
+        if (array_key_exists(1, $cart[$product_id])) {
+            $cart_quantity += $cart[$product_id][1]['quantity'];
+        }
+//        $this->placeProductHold($product_id, $cart_quantity);
         Log::info('New product added to cart: '.$product_id.' - '.$product_type . ' - ' . $cart_id . ' - ' . $screen_id);
         event(new \App\Events\NewProductToCart($cart_id, $screen_id));
         return ['status' => 'success', 'message' => 'Product added to cart successfully!', 'code' => 200];
+    }
+
+    private function removeFromCart($screen_id, $product_id, $cart_id, $product_type) {
+        try {
+            $cart = Cache::get('cart_'.$cart_id);
+            if(!$cart) {
+                return ['status' => 'false', 'message' => 'Cart not found!', 'code' => 404];
+            }
+            if($product_type != 0 && $product_type != 1) {
+                return ['status' => 'false', 'message' => 'Invalid selling type!', 'code' => 400];
+            }
+            if(!isset($cart[$product_id][$product_type])) {
+                return ['status' => 'false', 'message' => 'Product not found in cart!', 'code' => 404];
+            }
+            unset($cart[$product_id][$product_type]);
+            if(count($cart[$product_id]) == 0) {
+                unset($cart[$product_id]);
+            }
+            Cache::put('cart_'.$cart_id, $cart);
+            event(new \App\Events\NewProductToCart($cart_id, $screen_id));
+            // TODO: product hold
+            return ['status' => 'success', 'message' => 'Product removed from cart successfully!', 'code' => 200];
+
+        } catch (\Exception $e) {
+            return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
+        }
+
     }
 
     private function getCart($cart_id) {
@@ -126,17 +177,23 @@ class CartController extends Controller
         return Cache::get('screen_'.$screen_id);
     }
 
-    public function searchProduct(Request $request) {
-        $name = $request->name;
 
+    private function placeProductHold($product_id, $quantity) {
+        $current_hold = $this->getProductHold($product_id);
+        if($current_hold == 0) {
+            $current_hold = $quantity;
+        } else {
+            $current_hold += $quantity;
+        }
+        Cache::put('hold_'.$product_id, $current_hold, 60*24*7);
+    }
 
-        $product = Product::where('product_name','LIKE',"%$name%")->orwhere('barcode','LIKE',"%$name%")->get();
-
-
-        return response()->json($product);
-//        dd($product);
-
-
+    private function getProductHold($product_id) {
+        $hold = Cache::get('hold_'.$product_id);
+        if(!$hold) {
+            return 0;
+        }
+        return $hold;
     }
 
     // playground

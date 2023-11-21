@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/screen-data/{screen?}', [App\Http\Controllers\CartController::class, 'loadScreen'])->name('cart.screen-data');
     Route::get('/load/{cart_id?}', [App\Http\Controllers\CartController::class, 'loadCart'])->name('cart.load-cart');
     Route::post('/add-to-cart', [App\Http\Controllers\CartController::class, 'addToCartRoute'])->name('cart.add-to-cart');
+    Route::post('/remove-from-cart', [App\Http\Controllers\CartController::class, 'removeCartItem'])->name('cart.remove-from-cart');
     Route::get('/clear', [App\Http\Controllers\CartController::class, 'clearCartRoute'])->name('cart.clear-cart-route');
     Route::get('/playground', [App\Http\Controllers\CartController::class, 'playground']);
     Route::get('/search-product', [App\Http\Controllers\CartController::class, 'searchProduct'])->name('cart.search-cart');
