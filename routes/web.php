@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/clear', [App\Http\Controllers\CartController::class, 'clearCartRoute'])->name('cart.clear-cart-route');
     Route::get('/playground', [App\Http\Controllers\CartController::class, 'playground']);
     Route::get('/search-product', [App\Http\Controllers\CartController::class, 'searchProduct'])->name('cart.search-cart');
+
+    Route::get('/gen-qr', [App\Http\Controllers\CartController::class, 'generateQr'])->name('cart.generate-qr-code');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {
@@ -46,11 +48,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/notify', ], function () {
 });
 
 // Need more work
-//Route::group(["prefix" => "transaction", "namespace" => "App\Http\Controllers"], function () {
-//    Route::get("/find", "TransactionController@checkCall")->name('transaction.find');
-//    Route::post("/makeQr", "TransactionController@generateQR")->name('transaction.makeQr');
-//});
-//
-//Route::group(["prefix" => "app", "namespace" => "App\Http\Controllers"], function () {
-//    Route::get("/qr/{uuid}", "TransactionController@displayQR")->name('app.qr');
-//});
+Route::group(["prefix" => "transaction", "namespace" => "App\Http\Controllers"], function () {
+    Route::get("/find", [App\Http\Controllers\TransactionController::class, 'checkCall'])->name('transaction.find');
+    Route::post("/makeQr", [App\Http\Controllers\TransactionController::class, 'generateQR'])->name('transaction.makeQr');
+    Route::get("/qr/{uuid}", [App\Http\Controllers\TransactionController::class, 'displayQR'])->name('app.qr');
+});

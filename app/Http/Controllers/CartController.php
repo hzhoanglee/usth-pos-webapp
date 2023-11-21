@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewProductToCart;
+use App\Models\BankAccount;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -49,7 +50,6 @@ class CartController extends Controller
     public function loadCart($cart_id): \Illuminate\Http\JsonResponse
     {
         $cart = $this->getCart(intval($cart_id));
-        dd($cart);
         return response()->json($cart);
 
     }
@@ -59,7 +59,7 @@ class CartController extends Controller
         $cart = $this->getScreen(intval($screen_id));
         return response()->json($cart);
     }
-  
+
     public function searchProduct(Request $request) {
         $name = $request->name;
         $product = Product::where('product_name','LIKE',"%$name%")->orwhere('barcode','LIKE',"%$name%")->get();
@@ -71,6 +71,23 @@ class CartController extends Controller
         $value = $this->getCartSubtotal($cart_id);
         return response()->json($value);
 
+    }
+
+    public function generateCheckout(Request $request) {
+        $cart = $this->getCart(intval($request->cart_id));
+
+    }
+
+    public function generateQr(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $cart_id = $request->cart_id;
+        $screen_id = $request->screen_id;
+        $cart_value = $this->getCartSubtotal($cart_id);
+        $amount = $cart_value['data']['total_due'];
+        $bank_id = BankAccount::first()->id;
+        $qr = TransactionController::dispQr($amount, $bank_id);
+        event(new \App\Events\PushScreenData($screen_id, 'new_qr', base64_encode($qr)));
+        return response()->json(['status' => true], 200);
     }
 
     // action functions
@@ -210,9 +227,8 @@ class CartController extends Controller
         return $hold;
     }
 
-    private function getCartSubtotal($cart_id)
+    private function getCartSubtotal($cart_id): array
     {
-        // khai bao mang -> subtotal, vat, total due
         $cart_value = [
             'subtotal' => 0,
             'vat' => 0,
@@ -225,17 +241,7 @@ class CartController extends Controller
             return ['status' => 'success', 'data' => $cart_value, 'message' => 'ok!', 'code' => 200];
         }
 
-        // tinh toan abcdxyz
-        // for each
-        // check key value
-        // if key_exist == 1
-        // subtotal = quantity * price
-        // vat = subtotal += tax * subtotal
-        // total = subtotal += vat
-        //total_due = total * coupon
-        //
         foreach ($cart as $product) {
-            dump($product);
             if (array_key_exists(1, $product)) {
                 $sub_total = $product[1]['quantity'] * $product[1]['price'];
                 $vat = $sub_total * ($product[1]['tax'] / 100);
@@ -258,9 +264,85 @@ class CartController extends Controller
                 $cart_value['total_due'] += $total_due;
             }
         }
-        // tra ve mang
+        $cart_value['subtotal'] = round($cart_value['subtotal'], 2);
+        $cart_value['vat'] = round($cart_value['vat'], 2);
+        $cart_value['total'] = round($cart_value['total'], 2);
+        $cart_value['total_due'] = round($cart_value['total_due'], 2);
         return ['status' => 'success', 'data' => $cart_value, 'message' => 'ok!', 'code' => 200];
     }
+
+    private function doCheckOut($cart_id, $customer, $payment) {
+        // TODO: This is POC only, need to be implemented
+        $cart = $this->getCart(intval($cart_id));
+        $cart_value = $this->getCartSubtotal($cart_id);
+        if(array_key_exists('type', $customer)) {
+            // 1: new, 2: old, 3: guest
+            if ($customer['type'] == 1) {
+                $customer_id = $this->createCustomer($customer['data']);
+            } else if ($customer['type'] == 2) {
+                $customer_id = $customer['id'];
+            } else {
+                $customer_id = null;
+            }
+        } else {
+            $customer_id = null;
+        }
+        $order = new \App\Models\Order();
+        $order->cart_id = $cart_id;
+        $order->customer_id = $customer_id;
+        $order->price_before_discount = $cart_value['data']['subtotal'];
+        $order->apply_coupons = 0;
+        $order->price_after_discount = $cart_value['data']['total'];
+        $order->status = 1;
+        $order->user_id = auth()->id();
+        $order->order_date = now();
+        $order->payment_method = $payment['method'];
+        $order->payment_status = $payment['status'];
+        $order->transaction_id = $payment['transaction_id'];
+        $order->save();
+        $order_id = $order->id;
+        foreach ($cart as $product) {
+            if (array_key_exists(1, $product)) {
+                $order_detail = new \App\Models\OrderDetail();
+                $order_detail->order_id = $order_id;
+                $order_detail->product_id = $product[1]['id'];
+                $order_detail->quantity = $product[1]['quantity'];
+                $order_detail->price = $product[1]['price'];
+                $order_detail->save();
+            }
+            if (array_key_exists(0, $product)) {
+                $order_detail = new \App\Models\OrderDetail();
+                $order_detail->order_id = $order_id;
+                $order_detail->product_id = $product[0]['id'];
+                $order_detail->quantity = $product[0]['quantity'];
+                $order_detail->price = $product[0]['price'];
+                $order_detail->save();
+            }
+        }
+
+    }
+
+    private function generateBankQrCode($cart_id, $screen_id) {
+
+    }
+
+    private function createCustomer($customer) {
+        $customer = new \App\Models\Customer();
+        $customer->name = $customer['name'];
+        $customer->phone = $customer['phone'];
+        $customer->email = $customer['email'];
+        $customer->face = "";
+        $customer->address = $customer['address'];
+        $customer->zalo_number = $customer['zalo_number'];
+        $customer->credit = 0;
+        $customer->age = $customer['age'];
+        foreach ($customer['fields'] as $key => $value) {
+            $customer->details[$key] = $value;
+        }
+        $customer->save();
+        return $customer->id;
+    }
+
     // playground
     public function playground(Request $request)
     {

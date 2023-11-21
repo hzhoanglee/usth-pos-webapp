@@ -7,6 +7,15 @@
     padding: 3rem;
     background-color: gray;;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
 </style>
 
 <body style="width: auto; display: flex">
@@ -18,7 +27,7 @@
             <th>Unit</th>
             <th>Price</th>
             <th>Qty</th>
-            <th>Photo</th>
+{{--            <th>Photo</th>--}}
         </tr>
         </thead>
 
@@ -29,28 +38,20 @@
 
     <div class="prices-totals">
         <p class="d-flex justify-content-sm-between">
-            Subtotal: <span>3.12</span>
-        </p>
-
-        <p class="d-flex justify-content-sm-between">
-            Rounding: <span>3.12</span>
+            Subtotal: <span id="subtotal_value">3.12</span>
         </p>
 
         <p class="d-flex justify-content-sm-between">
             <span style="font-weight: bold; color: var(--system_primary_color)">Discount:</span>
-            <span>3.12</span>
+            <span id="tax_value">0</span>
         </p>
 
         <p class="d-flex justify-content-sm-between">
-            Change: <span>3.12</span>
-        </p>
-
-        <p class="d-flex justify-content-sm-between">
-            VAT: <span>3.12</span>
+            Tax: <span>0</span>
         </p>
 
         <p class="d-flex justify-content-sm-between" style="font-weight: bold">
-            Total due: <span>25.62</span>
+            Total due: <span id="total_due_value">0</span>
         </p>
     </div>
 </div>
@@ -65,7 +66,13 @@
     <h3>Please come again</h3>
     <br>
     <p>If you are happy with our services, please tell to your friends otherwise let us know so that we can improve.</p>
+
+    <br>
+    <p><div id="qr_code" style="height: 300px; width: 300px"></div></p>
 </div>
+
+
+
 </body>
 <script
     src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -94,6 +101,14 @@
         let products = data.cart;
         console.log(products);
         update_cart(products);
+        update_total(data.cart_id);
+    });
+
+    channel.bind('App\\Events\\PushScreenData', function(data) {
+        console.log(data);
+        if(data.msg_key === 'new_qr') {
+            show_qr(atob(data.msg_data));
+        }
     });
 
     function update_cart(products) {
@@ -107,8 +122,8 @@
                 let unit = $('<td></td>').text("Box(s)");
                 let price = $('<td></td>').text(product_box.price);
                 let qty = $('<td></td>').text(product_box.quantity);
-                let photo = $('<td></td>').append($('<img>').attr('src', product_box.photo).css('width', '100px'));
-                row.append(name, unit, price, qty, photo);
+                // let photo = $('<td></td>').append($('<img>').attr('src', product_box.photo).css('width', '100px'));
+                row.append(name, unit, price, qty);
                 cart_table.append(row);
             }
             if (product[1] !== undefined) {
@@ -118,8 +133,8 @@
                 let unit = $('<td></td>').text("Item(s)");
                 let price = $('<td></td>').text(product_item.price);
                 let qty = $('<td></td>').text(product_item.quantity);
-                let photo = $('<td></td>').append($('<img>').attr('src', product_item.photo).css('width', '100px'));
-                row.append(name, unit, price, qty, photo);
+                // let photo = $('<td></td>').append($('<img>').attr('src', product_item.photo).css('width', '100px'));
+                row.append(name, unit, price, qty);
                 cart_table.append(row);
             }
         });
@@ -136,4 +151,25 @@
             }
         });
     }
+
+    function update_total(cart_id) {
+        $.ajax({
+            url: '{{route('cart.load-total')}}/' + cart_id,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                $('#subtotal_value').text(data.data.subtotal);
+                $('#tax_value').text(data.data.vat);
+                $('#total_due_value').text(data.data.total_due);
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
+    }
+
+    function show_qr(svg) {
+        console.log(svg);
+        $('#qr_code').html(svg);
+    }
+
 </script>
