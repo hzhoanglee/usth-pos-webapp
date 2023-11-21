@@ -100,6 +100,7 @@ class CartController extends Controller
                         "photo" => $product->product_image
                     ];
                 }
+
             }
         } catch (\Exception $e) {
             return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
@@ -123,6 +124,19 @@ class CartController extends Controller
 
     private function getScreen($screen_id) {
         return Cache::get('screen_'.$screen_id);
+    }
+
+    public function searchProduct(Request $request) {
+        $name = $request->name;
+
+
+        $product = Product::where('product_name','LIKE',"%$name%")->orwhere('barcode','LIKE',"%$name%")->get();
+
+
+        return response()->json($product);
+//        dd($product);
+
+
     }
 
     // playground
