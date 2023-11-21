@@ -57,6 +57,12 @@ class CartController extends Controller
         $cart = $this->getScreen(intval($screen_id));
         return response()->json($cart);
     }
+  
+    public function searchProduct(Request $request) {
+        $name = $request->name;
+        $product = Product::where('product_name','LIKE',"%$name%")->orwhere('barcode','LIKE',"%$name%")->get();
+        return response()->json($product);
+    }
 
     // action functions
     private function addProductToCart($screen_id, $product_id, $cart_id, $product_type): array
@@ -110,6 +116,7 @@ class CartController extends Controller
                         "photo" => $product->product_image
                     ];
                 }
+
             }
         } catch (\Exception $e) {
             return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
@@ -169,6 +176,7 @@ class CartController extends Controller
     private function getScreen($screen_id) {
         return Cache::get('screen_'.$screen_id);
     }
+
 
     private function placeProductHold($product_id, $quantity) {
         $current_hold = $this->getProductHold($product_id);
