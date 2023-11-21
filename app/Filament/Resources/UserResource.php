@@ -21,6 +21,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    protected static ?string $navigationGroup = 'System Managements';
     public static function form(Form $form): Form
     {
         $role_lists = Role::all()->pluck('role_name', 'role_code')->toArray();
@@ -48,7 +49,7 @@ class UserResource extends Resource
                     ->autocomplete(false)
                     ->placeholder(__('manager.Password')),
                 Forms\Components\TextInput::make('national_id')
-                    ->name(__('manager.National ID'))
+                    ->label(__('manager.National ID'))
                     ->required()
                     ->autocomplete(false)
                     ->numeric()->nullable()
@@ -71,16 +72,20 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('manager.Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('role.role_name')
+                    ->label(__('manager.Role'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('national_id')
+                    ->label(__('manager.National ID'))
                     ->sortable()
                     ->searchable()
                     ->default(__('No ID')),
@@ -125,7 +130,8 @@ class UserResource extends Resource
     {
         return __('manager.User');
     }
-
-
+    public static function getModelLabel(): String{
+        return __('order.User');
+    }
 
 }

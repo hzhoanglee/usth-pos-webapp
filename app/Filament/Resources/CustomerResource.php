@@ -18,6 +18,8 @@ class CustomerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $navigationGroup = 'Business Managements';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -32,13 +34,13 @@ class CustomerResource extends Resource
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer name')),
                     Forms\Components\TextInput::make('mobile')->columnSpan(1)
-                        ->name(__('customer.Phone number'))
+                        ->label(__('customer.Phone number'))
                         ->autofocus()
                         #->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Phone number')),
                     Forms\Components\TextInput::make('email')->columnSpan(1)
-                        ->name(__('customer.Customer email'))
+                        ->label(__('customer.Customer email'))
                         ->autofocus()
                         #->required()
                         ->autocomplete(false)

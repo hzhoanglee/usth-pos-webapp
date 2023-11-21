@@ -19,12 +19,14 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard';
 
+    protected static ?string $navigationGroup = 'Order Managements';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('order_id')
-                    ->name(__('order.Order ID'))
+                    ->label(__('order.Order ID'))
                     ->autofocus()
                     ->required()
                     ->unique()
@@ -63,7 +65,7 @@ class OrderResource extends Resource
                     ->required()
                     ->placeholder(__('order.Price after discount')),
                 Forms\Components\Select::make('status')
-                    ->name(__('order.Status'))
+                    ->label(__('order.Status'))
                     ->required()
                     ->options([
                         'OK' => __('order.OK'),
@@ -95,33 +97,41 @@ class OrderResource extends Resource
             ->columns([
 
                 Tables\Columns\TextColumn::make('order_id')
+                    ->label(__('order.Order ID'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('client')
+                    ->label(__('order.Client'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price_before_discount')
+                    ->label(__('order.Price before discount'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('apply_coupons')
+                    ->label(__('order.Apply coupons'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price_after_discount')
+                    ->label(__('order.Price after discount'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('order.Status'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('order.User'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('order_date')
+                    ->label(__('order.Oder date'))
                     ->searchable()
                     ->sortable(),
 
@@ -160,5 +170,8 @@ class OrderResource extends Resource
         return __('order.Order');
     }
 
+    public static function getModelLabel(): String{
+        return __('order.Order');
+    }
 
 }

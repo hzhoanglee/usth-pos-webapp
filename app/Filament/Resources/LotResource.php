@@ -19,6 +19,8 @@ class LotResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
+    protected static ?string $navigationGroup = 'Business Managements';
+
     public static function form(Form $form): Form
     {
         return $form
