@@ -297,29 +297,21 @@
             <div class="checkout">
                 <div class="p-2 count">
                     <p class="d-flex justify-content-sm-between">
-                        Subtotal: <span>3.12</span>
+                        Subtotal: <span id="subtotal_value"></span>
                     </p>
 
                     <p class="d-flex justify-content-sm-between">
-                        Rounding: <span>3.12</span>
+                        <span style="font-weight: bold; color: var(--system_primary_color)">Discount:</span> <span>0</span>
                     </p>
 
                     <p class="d-flex justify-content-sm-between">
-                        <span style=" font-weight: bold; color: var(--system_primary_color)">Discount:</span> <span>3.12</span>
-                    </p>
-
-                    <p class="d-flex justify-content-sm-between">
-                        Change: <span>3.12</span>
-                    </p>
-
-                    <p class="d-flex justify-content-sm-between">
-                        VAT: <span>3.12</span>
+                        TAX: <span id="tax_value">0</span>
                     </p>
                 </div>
 
                 <div class="total">
                     <p class="d-flex justify-content-sm-between">
-                        Total due: <span>3.12</span>
+                        Total due: <span id="total_due_value">0</span>
                     </p>
                 </div>
 
@@ -331,11 +323,8 @@
                         Cancel
                     </button>
 
-                    <button class="holdBtn shadow" >
-                        <span>
-                           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
-                        </span>
-                        Hold
+                    <button class="holdBtn shadow" onclick="sendQr()">
+                        (DEV)QR Gen
                     </button>
 
                     <button class="paymentBtn">
@@ -356,19 +345,19 @@
         <div class="categoryContainer">
             <h3>CATEGORY</h3>
             <div class="container">
-                @for ($row = 1; $row <= 3; $row++)
-                    <div class="row">
-                        @for ($col = 1; $col <= 4; $col++)
-                            <div class="col-md-3">
-                                <div class="custom-box">Category {{ ($row - 1) * 4 + $col }}</div>
-                            </div>
-                        @endfor
-                    </div>
-                @endfor
+{{--                @for ($row = 1; $row <= 3; $row++)--}}
+{{--                    <div class="row">--}}
+{{--                        @for ($col = 1; $col <= 4; $col++)--}}
+{{--                            <div class="col-md-3">--}}
+{{--                                <div class="custom-box">Category {{ ($row - 1) * 4 + $col }}</div>--}}
+{{--                            </div>--}}
+{{--                        @endfor--}}
+{{--                    </div>--}}
+{{--                @endfor--}}
             </div>
         </div>
 
-        <div class="listContainer">
+        <div class=" container listContainer">
 
             <div class="search-group d-flex align-items-center justify-between">
                 <h3>ITEM LIST</h3>
@@ -380,7 +369,7 @@
 
                 </div>
             </div>
-            <div class="scrollableContainer">
+            <div class="scrollableContainer justify-between">
                 <table id="product-list">
                     <thead>
                     <tr>
@@ -390,7 +379,7 @@
                         <th>Quantity</th>
                         <th>Photo</th>
                         <th>Action</th>
-                        <th>Status</th>
+{{--                        <th>Status</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -443,6 +432,7 @@
             success: function(data) {
                 console.log(data);
                 update_cart();
+                update_total();
             }, error: function(data) {
                 flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
@@ -450,7 +440,6 @@
     }
 
     function remove_from_cart(product_id, type) {
-        // alert("So, you want to remove product "+product_id + ' with type ' + type + ". Let do it later...");
         let item_id = '#product_' + product_id + '_' + type;
         $(item_id).remove();
         $.ajax({
@@ -465,6 +454,7 @@
             },
             success: function(data) {
                 console.log(data);
+                update_total();
                 flasher.notyf.success(data.message, {position: {x:'right',y:'top'}, dismissible: true});
             }, error: function(data) {
                 update_cart();
@@ -488,6 +478,7 @@
             },
             success: function(data) {
                 console.log(data);
+                update_total();
             }
         });
     }
@@ -567,14 +558,46 @@
             let product_box = product;
             let name = $('<td></td>').text(product_box.product_name);
             let unit = $('<td></td>').html('<select id="unit_'+product_id+'"><option value="0">Box</option> <option value="1">Item</option> </select>');
-            let price = $('<td></td>').text(product_box.price_box_discounted);
+            let price = $('<td></td>').html('Box: ' + product_box.price_box_discounted + ' <br> Item: ' + product_box.price_item_discounted);
             let qty = $('<td></td>').text(product_box.quantity);
-            let photo = $('<td></td>').append($('<img>').attr('src', product_box.photo).css('width', '100px'));
+            let photo = $('<td></td>').append($('<img>').attr('src', product_box.product_image).css('width', '100px'));
             let action = $('<td></td>').html('<button class="btn btn-primary" onclick="add_to_cart(\''+product_id+'\')">Add to cart</button>');
             row.append(name, unit, price, qty, photo, action);
             cart_table.append(row);
         });
 
+    }
+
+    function update_total() {
+        let cart_id = $('#cart_id').val();
+        $.ajax({
+            url: '{{route('cart.load-total')}}/' + cart_id,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                $('#subtotal_value').text(data.data.subtotal);
+                $('#tax_value').text(data.data.vat);
+                $('#total_due_value').text(data.data.total_due);
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
+    }
+
+    function sendQr() {
+        let cart_id = $('#cart_id').val();
+        $.ajax({
+            url: '{{route('cart.generate-qr-code')}}?cart_id' + cart_id + '&screen_id={{$screen}}',
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                $('#subtotal_value').text(data.data.subtotal);
+                $('#tax_value').text(data.data.vat);
+                $('#total_due_value').text(data.data.total_due);
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
     }
 
 

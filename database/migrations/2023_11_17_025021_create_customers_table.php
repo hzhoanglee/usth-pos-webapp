@@ -14,7 +14,7 @@ return new class extends Migration
         SchemaAlias::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name',200)->default(null);
-            $table->string('mobile', 200)->nullable()->default(null);
+            $table->string('phone', 200)->nullable()->default(null);
             $table->string('email', 200)->nullable()->default(null);
             $table->json('details')->nullable();
             $table->string('face', 2000)->default(null);

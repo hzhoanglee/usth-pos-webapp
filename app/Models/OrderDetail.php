@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MongoDB\Laravel\Eloquent\Model;
 
-class OrderDetails extends Model
+class OrderDetail extends Model
 {
     use HasFactory;
     protected $guarded = [];

@@ -30,7 +30,7 @@ class CheckAdmin extends Middleware
 
 
         if ($user instanceof FilamentUser) {
-            if ($user->role && $user->role_code != 'user_admin') {
+            if ($user->role && $user->role_id != 'user_admin') {
                 abort(403);
             }
         }

@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderDetailsResource\Pages;
 use App\Filament\Resources\OrderDetailsResource\RelationManagers;
-use App\Models\OrderDetails;
+use App\Models\OrderDetail;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderDetailsResource extends Resource
 {
-    protected static ?string $model = OrderDetails::class;
+    protected static ?string $model = OrderDetail::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 

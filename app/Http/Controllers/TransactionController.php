@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankAccount;
 use App\Models\BankTransaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -82,15 +83,54 @@ class TransactionController extends Controller
 
     public function displayQR(Request $request){
         $qr = \App\Models\QrCode::where('uuid', $request->uuid)->first();
-        $bankCode = "vpb";
-        $bankAccount = "1383286383";
+        $bank_id = $request->bank_id;
+        $bank = BankAccount::find($bank_id);
+        if(!$bank) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'message' => 'Không tìm thấy ngân hàng'
+            ]);
+        }
+        $bankCode = $bank->bank;
+        $bankAccount = $bank->account;
         $message = $qr->code;
         $hash = $this->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
         $qrCode = QrCode::style('round')->size(300)->generate($hash);
         if ($qr == null) {
-            return redirect()->back()->with('error', 'Không tìm thấy mã QR');
+            return response("Không tìm thấy mã QR", 404);
         }
-        return view('screens.qr', compact('qr', 'qrCode'));
+        return $qrCode;
+    }
+
+    public static function genQRUUID($amount) {
+        $qr = new \App\Models\QrCode();
+        $qr->amount = $amount;
+        $qr->code = \Illuminate\Support\Str::random(6);
+        $qr->uuid = \Illuminate\Support\Str::uuid();
+        $qr->content = "";
+        $qr->save();
+        return $qr;
+    }
+
+    public static function dispQr($amount, $bank_id) {
+        if($amount <= 0) {
+            return false;
+        }
+        if(!$bank_id) {
+            return false;
+        }
+        $bank = BankAccount::find($bank_id);
+        if(!$bank) {
+            return false;
+        }
+        $qr = TransactionController::genQRUUID($amount);
+        $bankCode = $bank->bank;
+        $bankAccount = $bank->bank_number;
+        $message = $qr->code;
+        $hash = (new TransactionController)->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
+        $qrCode = QrCode::style('round')->size(300)->generate($hash);
+        return $qrCode;
     }
 
 
@@ -116,8 +156,8 @@ class TransactionController extends Controller
     {
 
         $bankIdByCode = array(
-            "tpb" => "970423",
-            "vpb" => "970432"
+            "TPB" => "970423",
+            "VPB" => "970432"
         );
 
         $bankId = $bankIdByCode[$bankCode];
