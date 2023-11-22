@@ -14,6 +14,8 @@ class CartController extends Controller
     public function index(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $screen = $request->screen;
+        notyf()->position('x', 'right')
+            ->position('y', 'top')->addSuccess('Hi, Have a nice day!');
         return view('cart.screen', compact('screen'));
     }
 
@@ -86,8 +88,8 @@ class CartController extends Controller
         $amount = $cart_value['data']['total_due'];
         $bank_id = BankAccount::first()->id;
         $qr = TransactionController::dispQr($amount, $bank_id);
-        event(new \App\Events\PushScreenData($screen_id, 'new_qr', base64_encode($qr)));
-        return response()->json(['status' => true], 200);
+        event(new \App\Events\PushScreenData($screen_id, 'new_qr', base64_encode($qr['qr'])));
+        return response()->json(['status' => true, 'needle'=> $qr['needle']], 200);
     }
 
     // action functions
@@ -109,10 +111,6 @@ class CartController extends Controller
             return ['status' => 'false', 'message' => $e->getMessage(), 'code' => 500];
         }
         try {
-//            $available_quantity = intval($product->quantity) - intval($this->getProductHold($product_id));
-//            if($available_quantity <= 0) {
-//                return ['status' => 'false', 'message' => 'No more product available, please try to add some or remove from the other cart.', 'code' => 400];
-//            }
             if (!$cart) {
                 if ($product_type == 0) {
                     $price = $product->price_box_discounted;
@@ -264,10 +262,10 @@ class CartController extends Controller
                 $cart_value['total_due'] += $total_due;
             }
         }
-        $cart_value['subtotal'] = round($cart_value['subtotal'], 2);
-        $cart_value['vat'] = round($cart_value['vat'], 2);
-        $cart_value['total'] = round($cart_value['total'], 2);
-        $cart_value['total_due'] = round($cart_value['total_due'], 2);
+        $cart_value['subtotal'] = ceil($cart_value['subtotal']);
+        $cart_value['vat'] = ceil($cart_value['vat']);
+        $cart_value['total'] = ceil($cart_value['total']);
+        $cart_value['total_due'] = ceil($cart_value['total_due']);
         return ['status' => 'success', 'data' => $cart_value, 'message' => 'ok!', 'code' => 200];
     }
 

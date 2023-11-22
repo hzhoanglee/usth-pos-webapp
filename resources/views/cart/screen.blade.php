@@ -38,16 +38,16 @@ tr {
 
     <div class="prices-totals">
         <p class="d-flex justify-content-sm-between">
-            Subtotal: <span id="subtotal_value">3.12</span>
+            Subtotal: <span id="subtotal_value">0</span>
         </p>
 
         <p class="d-flex justify-content-sm-between">
             <span style="font-weight: bold; color: var(--system_primary_color)">Discount:</span>
-            <span id="tax_value">0</span>
+            <span>0</span>
         </p>
 
         <p class="d-flex justify-content-sm-between">
-            Tax: <span>0</span>
+            Tax: <span id="tax_value">0</span>
         </p>
 
         <p class="d-flex justify-content-sm-between" style="font-weight: bold">
@@ -62,10 +62,12 @@ tr {
     <div class="ads_area">
         This is some ads
     </div>
-    <h2>Thank you for your visit !</h2>
-    <h3>Please come again</h3>
-    <br>
-    <p>If you are happy with our services, please tell to your friends otherwise let us know so that we can improve.</p>
+    <div id="thank_you" class="thank_you" style="display: none;">
+        <h2>Thank you for your visit !</h2>
+        <h3>Please come again</h3>
+        <br>
+        <p>If you are happy with our services, please tell to your friends otherwise let us know so that we can improve.</p>
+    </div>
 
     <br>
     <p><div id="qr_code" style="height: 300px; width: 300px"></div></p>
@@ -83,7 +85,7 @@ tr {
 <script>
     // document on load
     $(document).ready(function() {
-        update_screen();
+        // update_screen();
     });
 
     let pusher = new Pusher('lkey', {
@@ -106,8 +108,22 @@ tr {
 
     channel.bind('App\\Events\\PushScreenData', function(data) {
         console.log(data);
-        if(data.msg_key === 'new_qr') {
-            show_qr(atob(data.msg_data));
+        switch (data.msg_key) {
+            case 'new_qr':
+                show_qr(atob(data.msg_data));
+                break;
+            case 'new_cart':
+                let products = data.msg_data;
+                update_cart(products);
+                break;
+            case 'new_total':
+                let total = data.msg_data;
+                $('#total_due_value').text(total);
+                break;
+            case 'payment_received':
+                $('#thank_you').show();
+                clear_screen();
+                break;
         }
     });
 
@@ -158,9 +174,7 @@ tr {
             method: 'GET',
             success: function(data) {
                 console.log(data);
-                $('#subtotal_value').text(data.data.subtotal);
-                $('#tax_value').text(data.data.vat);
-                $('#total_due_value').text(data.data.total_due);
+                update_total_value(data.data.subtotal, data.data.vat, data.data.total_due);
             }, error: function(data) {
                 flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
@@ -169,7 +183,22 @@ tr {
 
     function show_qr(svg) {
         console.log(svg);
-        $('#qr_code').html(svg);
+        $('#thank_you').hide();
+        let qr = $('#qr_code');
+        qr.show();
+        qr.html(svg);
+    }
+
+    function update_total_value(subtotal, vat, total_due) {
+        $('#subtotal_value').text(subtotal);
+        $('#tax_value').text(vat);
+        $('#total_due_value').text(total_due);
+    }
+
+    function clear_screen() {
+        $('#cart_table tbody').empty();
+        $('#qr_code').hide();
+        update_total_value(0, 0, 0);
     }
 
 </script>
