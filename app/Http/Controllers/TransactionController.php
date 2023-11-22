@@ -23,7 +23,7 @@ class TransactionController extends Controller
         try {
             $match = false;
             (new VPBankController)->syncTransaction();
-            $data = BankTransaction::where('checked', false)->where('content', 'like', "%".$needle."%")->get();
+            $data = BankTransaction::where('type',1)->where('checked', false)->where('content', 'like', "%".$needle."%")->get();
             $qr = \App\Models\QrCode::where('code', $needle)->first();
             foreach($data as $transaction) {
                 if($qr->amount <= $transaction->amount) {
@@ -36,13 +36,16 @@ class TransactionController extends Controller
                     $qr->save();
                 }
             }
-            if($data->count() > 0)
+            if($data->count() > 0) {
+                event(new \App\Events\PushScreenData(0, 'payment_received', []));
+                event(new \App\Events\PushScreenData(1, 'payment_received', []));
                 return response()->json([
                     'success' => true,
                     'data' => $data,
                     'message' => 'Here we go',
                     'match' => $match,
                 ]);
+            }
             else
                 return response()->json([
                     'success' => false,
@@ -70,7 +73,7 @@ class TransactionController extends Controller
         }
         $qr = new \App\Models\QrCode();
         $qr->amount = $amount;
-        $qr->code = \Illuminate\Support\Str::random(6);
+        $qr->code = "POS".\Illuminate\Support\Str::random(6);
         $qr->uuid = \Illuminate\Support\Str::uuid();
         $qr->content = "";
         $qr->save();
@@ -106,7 +109,7 @@ class TransactionController extends Controller
     public static function genQRUUID($amount) {
         $qr = new \App\Models\QrCode();
         $qr->amount = $amount;
-        $qr->code = \Illuminate\Support\Str::random(6);
+        $qr->code = "POS".\Illuminate\Support\Str::random(6);
         $qr->uuid = \Illuminate\Support\Str::uuid();
         $qr->content = "";
         $qr->save();
@@ -130,7 +133,7 @@ class TransactionController extends Controller
         $message = $qr->code;
         $hash = (new TransactionController)->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
         $qrCode = QrCode::style('round')->size(300)->generate($hash);
-        return $qrCode;
+        return ['needle'=> $qr->code, 'qr' => $qrCode];
     }
 
 

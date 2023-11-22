@@ -468,13 +468,16 @@
     }
 
     function clear_cart() {
+        let cart_id = $('#cart_id').val();
+        $("#middle-table").find("tr:gt(0)").remove();
+        update_total_value(0, 0, 0);
         $.ajax({
             url: '{{route('cart.clear-cart-route')}}',
             method: 'GET',
             data: {
                 _token: '{{csrf_token()}}',
                 screen_id : '{{$screen}}',
-                cart_id: $('#cart_id').val(),
+                cart_id: cart_id,
             },
             success: function(data) {
                 console.log(data);
@@ -575,29 +578,70 @@
             method: 'GET',
             success: function(data) {
                 console.log(data);
-                $('#subtotal_value').text(data.data.subtotal);
-                $('#tax_value').text(data.data.vat);
-                $('#total_due_value').text(data.data.total_due);
+                update_total_value(data.data.subtotal, data.data.vat, data.data.total_due);
             }, error: function(data) {
                 flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
         });
     }
 
+    function update_total_value(subtotal, vat, total_due) {
+        $('#subtotal_value').text(subtotal);
+        $('#tax_value').text(vat);
+        $('#total_due_value').text(total_due);
+    }
+
     function sendQr() {
         let cart_id = $('#cart_id').val();
         $.ajax({
-            url: '{{route('cart.generate-qr-code')}}?cart_id' + cart_id + '&screen_id={{$screen}}',
+            url: '{{route('cart.generate-qr-code')}}?cart_id=' + cart_id + '&screen_id={{$screen}}',
             method: 'GET',
             success: function(data) {
                 console.log(data);
-                $('#subtotal_value').text(data.data.subtotal);
-                $('#tax_value').text(data.data.vat);
-                $('#total_due_value').text(data.data.total_due);
+                saveNeedleCode(data.needle);
+
             }, error: function(data) {
                 flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
         });
+    }
+
+    function callCheck(needle) {
+        $.ajax({
+            url: '{{route('transaction.find')}}?needle=' + needle,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                if(data.success === true) {
+                    flasher.notyf.success("Received: "+data.data[0].amount + "VND", {position: {x:'right',y:'top'}, dismissible: true});
+                    checkoutSuccess();
+                }
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
+
+    }
+
+    function checkoutSuccess() {
+        // TODO: POC
+        flasher.notyf.success('Checkout success', {position: {x:'right',y:'top'}, dismissible: true});
+        clear_cart();
+    }
+
+    function saveNeedleCode(needle) {
+        let cart_id = $('#cart_id').val();
+        localStorage.setItem('cart_' + cart_id, needle);
+    }
+
+    function loadNeedleCode() {
+        let cart_id = $('#cart_id').val();
+        return localStorage.getItem('cart_' + cart_id);
+    }
+
+    function clearNeedleCode() {
+        let cart_id = $('#cart_id').val();
+        localStorage.removeItem('cart_' + cart_id);
     }
 
 
@@ -606,6 +650,29 @@
     update_cart();
     setInterval(updateDateTime, 1000);
     updateDateTime();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/8.3.0/pusher.min.js"></script>
+<script>
+    let pusher = new Pusher('lkey', {
+        wsHost: 'socket.vslim.io',
+        forceTLS: true,
+        encrypted: true,
+        disableStats: true,
+        enabledTransports: ['ws', 'wss'],
+        cluster: 'ap1',
+    });
+    let channel = pusher.subscribe('pos_{{$screen}}');
+
+    channel.bind('App\\Events\\PushPosData', function(data) {
+        console.log(data);
+        switch (data.msg_key) {
+            case 'payment_noti':
+                console.log(loadNeedleCode());
+                callCheck(loadNeedleCode());
+                break;
+        }
+    });
 </script>
 </body>
 </html>

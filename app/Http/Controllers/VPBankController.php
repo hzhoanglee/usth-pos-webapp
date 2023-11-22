@@ -35,6 +35,7 @@ class VPBankController extends Controller
             $transaction_obj->transaction_id = $transaction_id;
             $transaction_obj->amount = $transaction['amount'];
             $transaction_obj->content = $transaction['content'];
+            $transaction_obj->checked = false;
             if($transaction['type'] == "IN")
                 $transaction_obj->type = 1;
             else
