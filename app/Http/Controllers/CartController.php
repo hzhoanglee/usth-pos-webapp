@@ -49,7 +49,6 @@ class CartController extends Controller
     public function loadCart($cart_id): \Illuminate\Http\JsonResponse
     {
         $cart = $this->getCart(intval($cart_id));
-        dd($cart);
         return response()->json($cart);
 
     }

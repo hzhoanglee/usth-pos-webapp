@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::post('/add-to-cart', [App\Http\Controllers\CartController::class, 'addToCartRoute'])->name('cart.add-to-cart');
     Route::post('/remove-from-cart', [App\Http\Controllers\CartController::class, 'removeCartItem'])->name('cart.remove-from-cart');
     Route::get('/clear', [App\Http\Controllers\CartController::class, 'clearCartRoute'])->name('cart.clear-cart-route');
+    Route::get('/lock', [App\Http\Controllers\SettingsController::class, 'lockSystem'])->name('settings.lock_system');
+    Route::get('/unlock', [App\Http\Controllers\SettingsController::class, 'unlockSystem'])->name('settings.unlock_system');
     Route::get('/playground', [App\Http\Controllers\CartController::class, 'playground']);
 });
 
