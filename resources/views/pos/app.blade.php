@@ -238,10 +238,10 @@
 
 
         .popup{
-            width: 20%;
-            height: 20%;
+            width: 30%;
+            height: 30%;
             background: #fff;
-            border-radius: 6px;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -261,7 +261,7 @@
             position: absolute;
             top: 0;
             left: 50%;
-            width: 100%;
+            width: 150%;
             height: 150%;
             background-color: #00bb00;
             display: flex;
@@ -270,6 +270,11 @@
             visibility: hidden;
             transform: translate(-50%, -50%) scale(0.1);
             z-index: 9999;
+        }
+
+        .glass{
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(10px);
         }
 
         .open-overlay{
@@ -470,10 +475,11 @@
     </div>
 </div>
 
-<div class="overlay" id="overlay">
+<div class="overlay glass" id="overlay">
     <div class="popup" id="popup">
         <h2>System has been locked</h2>
-        <p>Enter password to unlock</p>
+        <label for="textInput">Enter Text:</label>
+        <input type="text" id="textInput" name="textInput">
         <button type="button" onclick="unlockSystem()">Unlock</button>
     </div>
 </div>
@@ -490,7 +496,35 @@
         popup.classList.add("open-overlay");
     }
     function unlockSystem (){
-        popup.classList.remove("open-overlay");
+        $.ajax({
+            url: '{{route('get-password')}}',
+            method: 'GET',
+            // data: {
+            //     password: ,
+            //     // Other necessary data
+            // },
+            success: function(response) {
+                // Handle the response from the server
+
+                console.log(response);
+                var userInput = document.getElementById('textInput').value;
+                let count = 0;
+                for (let i =0; i <= response.length; i++) {
+                    if (userInput === response[i]){
+                        console.log('1 matches')
+                        count += 1;
+                    }
+                }
+
+                if (count >= 1){
+                    popup.classList.remove("open-overlay");
+                }
+            },
+            error: function(error) {
+                // Handle errors
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
     }
 
     function add_to_cart(product_id) {
@@ -556,33 +590,6 @@
         });
     }
 
-    function lock_system(){
-        $.ajax({
-            url: '{{route('settings.lock_system')}}',
-            method: 'GET',
-            data: {
-                _token: '{{csrf_token()}}',
-                screen_id : '{{$screen}}'
-            },
-            success: function(data) {
-                console.log(data);
-            }
-        });
-    }
-
-    function unlock_system(){
-        $.ajax({
-            url: '{{route('settings.unlock_system')}}',
-            method: 'GET',
-            data: {
-                _token: '{{csrf_token()}}',
-                screen_id : '{{$screen}}'
-            },
-            success: function(data) {
-                console.log(data);
-            }
-        });
-    }
 
     function updateDateTime() {
         var now = new Date();
