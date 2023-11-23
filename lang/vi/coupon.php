@@ -12,4 +12,8 @@ return [
     'Condition' => 'Điều kiện',
     'Value' => 'Giá trị',
     'Coupon value' => 'Giá trị',
+    'Coupon condition' => 'Điều kiện',
+    'Coupon minimum condition' =>'Giá trị tối thiểu',
+    'On product' => 'Trên sản phẩm',
+    'Applied with other' => 'Kết hợp với ưu đãi khác',
 ];

@@ -53,19 +53,22 @@ class CouponResource extends Resource
                         ]),
                 Forms\Components\CheckboxList::make('coupon_condition')
                     ->name(__('coupon.Coupon condition'))
-                    ->required()
                     ->options([
-                        'minimum bill value' => 'Minimum bill value',
                         'on products' => 'On product',
                         'applied with other' => 'Applied with other',
                     ]),
+                Forms\Components\TextInput::make('coupon_minimum_condition')
+                    ->name(__('coupon.Coupon minimum condition'))
+                    ->autofocus()
+                    ->autocomplete(false)
+                    ->placeholder(__('coupon.Coupon minimum condition')),
                 Forms\Components\TextInput::make('coupon_value')
                     ->name(__('coupon.Coupon value'))
                     ->autofocus()
                     ->required()
                     ->autocomplete(false)
                     ->placeholder(__('coupon.Coupon value')),
-            ]);
+                    ]);
     }
 
     public static function table(Table $table): Table

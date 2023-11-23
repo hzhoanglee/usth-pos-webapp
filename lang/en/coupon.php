@@ -11,5 +11,9 @@ return [
     'Amount' => 'Amount',
     'Condition' => 'Condition',
     'Value' => 'Value',
-    'Coupon value' =>'Coupon value'
+    'Coupon value' =>'Coupon value',
+    'Coupon condition' => 'Coupon condition',
+    'Coupon minimum condition' =>'Coupon minimum condition',
+    'On product' => 'On product',
+    'Applied with other' => 'Applied with other',
 ];
