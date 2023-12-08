@@ -4,299 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <style>
-        :root{
-            --system_primary_color: #64BEFF;
-            --system-white: #FFFFFF;
-            --system-success: #3BDEE9;
-            --system-secondary-color-10: rgba(206, 234, 255, 0.59);
-            --system-secondary-color-20: rgba(206, 234, 255, 0.7);
-            --text-color: #777777;
-            --system-gray: #D6D6D6;
-            --neutral-10: #F0F0F0;
-            --backkground-color: #EDF8FF
-
-        }
-
-        body {
-            overflow-y: auto;
-        }
-
-        .navbar{
-            background-color: var(--system_primary_color);
-            color: var(--system-white);
-            font-weight: bold;
-
-        }
-
-        .datetime-indicator {
-            font-size: 18px;
-            margin-right: 15px
-        }
-
-
-        .screen_left{
-            flex: 0 0 620px;
-
-        }
-
-        .screen_right{
-            flex: 0 0 65%;
-            margin-left: 1rem;
-
-        }
-
-        img{
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-        }
-
-
-        .custom-box {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        svg{
-            fill: var(--system-white)
-        }
-
-        h1, h2, h3{
-            color: var(--system_primary_color);
-            font-weight: 600;
-        }
-
-        .scrollableContainer{
-            max-height: 440px;
-            overflow-y: auto;
-
-        }
-
-        .search-group{
-            white-space: nowrap;
-            justify-content: space-between;
-        }
-
-        .input-group{
-            width: 250px;
-        }
-
-        .form-control{
-            height: 30px;
-
-        }
-
-        .searchBtn{
-            height: 30px;
-            border-radius: .5rem;
-            background-color: var(--system_primary_color);
-            fill: var(--system-white);
-            border: none;
-            z-index: 2;
-            padding-left: 10px;
-            transition: all .3s ease;
-
-        }
-
-        .searchBtn:hover{
-            opacity: .6;
-        }
-
-
-
-        th, td{
-            padding: 10px;
-            color: var(--text-color);
-        }
-
-        table {
-            border-collapse: separate;
-            border-spacing: 5px 10px; /* Adjust the second value to set the vertical spacing */
-        }
-
-        .cart-middle{
-            height: 380px;
-        }
-
-        p{
-            margin-bottom:.2rem;
-        }
-
-
-
-
-        .btn-success{
-            background-color: var(--system-success) !important;
-            border: var(--system-success) !important;
-        }
-
-
-        .btn-primary{
-            background-color: var(--system_primary_color);
-            border: var(--system_primary_color);
-        }
-
-        .new-customer{
-            background-color: var(--system-secondary-color-10);
-            border-radius: 1.5rem;
-            padding: .3rem;
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 16px;
-            width: 186px;
-
-        }
-
-        .new-customer svg{
-            fill: var(--text-color);
-            margin-left: 6px;
-        }
-
-        .total{
-            border-radius: .5rem;
-            border: 3px solid var(--system_primary_color);
-            padding: .5rem 1rem;
-            font-size: 20px;
-            font-weight: bold;
-            color:var(--system_primary_color);
-            background-color: var(--system-secondary-color-10) ;
-        }
-
-
-
-        .total > p{
-            margin: 0;
-        }
-
-        .cancelBtn, .holdBtn, .paymentBtn{
-            padding: 1rem;
-            width: 180px;
-            border: none;
-            border-radius: .5rem;
-            font-weight: 600;
-        }
-
-        .cancelBtn, .holdBtn{
-            color: var(--text-color);
-        }
-
-        .cancelBtn{
-            background-color: var(--system-gray);
-            transition: all .1s linear;
-        }
-        .cancelBtn:hover{
-            background-color: var(--neutral-10);
-        }
-
-        .cancelBtn > span > svg{
-            fill: var(--text-color);
-        }
-        .holdBtn > span > svg{
-            fill: var(--text-color);
-        }
-
-        .holdBtn{
-            background-color: var(--neutral-10);
-            transition: all .1s linear;
-
-        }
-
-        .holdBtn:hover{
-            background-color: var(--system-gray);
-        }
-
-        .paymentBtn{
-            background-color: var(--system_primary_color);
-            color: var(--system-white);
-            transition: all .1s linear;
-        }
-
-        .paymentBtn:hover{
-            background-color: #0d6efd;
-        }
-
-
-
-        .count{
-            font-size: 14px;
-        }
-
-        ::-webkit-scrollbar {
-            width: 15px;
-
-        }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            box-shadow:  inset 0 0 5px grey;
-            border-radius: 10px;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: var(--system_primary_color);
-            border-radius: 10px;
-        }
-
-        .popup-form {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .close-btn,
-        .submit-btn {
-            width: 100%;
-            cursor: pointer;
-        }
-
-        .form-container{
-            visibility: hidden;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .show{
-            visibility: visible;
-        }
-
-        .credit-btn:focus{
-            background-color: var(--system_primary_color);
-        }
-
-        .cash-btn:focus{
-            background-color: var(--system_primary_color);
-        }
-
-
-        .total_due_value{
-            color: var(--system_primary_color);
-        }
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -304,7 +14,7 @@
     <a class="navbar-brand" href="#">Your Logo</a>
     <span class="datetime-indicator" id="datetime"></span>
 </nav>
-<div class="container d-flex m-0"><div class="screen_left shadow p-3 mb-5 bg-white rounded">
+<div class="container d-flex m-0"><div class="screen_left shadow p-3 bg-white rounded">
         <label for="cart_id">CartID</label>
         <select id="cart_id">
             <option value="0">Cart 0</option>
@@ -383,7 +93,7 @@
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                         </span>
-                        Payment
+                        Payments
                     </button>
                 </div>
 
@@ -394,24 +104,9 @@
 
     </div>
     <div class="screen_right">
-        <div class="categoryContainer">
-            <h3>CATEGORY</h3>
-            <div class="container">
-                {{--                @for ($row = 1; $row <= 3; $row++)--}}
-                {{--                    <div class="row">--}}
-                {{--                        @for ($col = 1; $col <= 4; $col++)--}}
-                {{--                            <div class="col-md-3">--}}
-                {{--                                <div class="custom-box">Category {{ ($row - 1) * 4 + $col }}</div>--}}
-                {{--                            </div>--}}
-                {{--                        @endfor--}}
-                {{--                    </div>--}}
-                {{--                @endfor--}}
-            </div>
-        </div>
-
         <div class=" container listContainer">
 
-            <div class="search-group d-flex align-items-center justify-between">
+            <div class="search-group">
                 <h3>ITEM LIST</h3>
                 <div class="input-group">
                     <button class="searchBtn " type="button" id="search-button" onclick="search_product()">
@@ -421,7 +116,7 @@
 
                 </div>
             </div>
-            <div class="scrollableContainer justify-between">
+            <div class="scrollableContainer justify-between mt-2">
                 <table id="product-list">
                     <thead>
                     <tr>
