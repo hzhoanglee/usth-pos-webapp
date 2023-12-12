@@ -57,13 +57,20 @@ class CouponResource extends Resource
                     ->label(__('coupon.Condition'))
                     ->required()
                     ->options([
-                        'Minimum bill value' => __('coupon.Minimum bill value'),
-                        'on products' => __('coupon.On product'),
                         'applied with other' => __('coupon.Applied with other'),
                     ]),
+                Forms\Components\TextInput::make('minimum_value')
+                    ->label(__('coupon.Minimum bill value'))
+                    ->autocomplete(false)
+                    ->placeholder(__('coupon.Minimum bill value')),
+                Forms\Components\Select::make('on_product')
+                    ->label(__('coupon.On product'))
+                    ->options(
+                        \App\Models\Product::all()->pluck('product_name','id')->toArray()
+                    )
+                    ->placeholder(__('coupon.On product')),
                 Forms\Components\TextInput::make('coupon_value')
                     ->label(__('coupon.Coupon Value'))
-                    ->autofocus()
                     ->required()
                     ->autocomplete(false)
                     ->placeholder(__('coupon.Coupon Value')),
@@ -80,7 +87,6 @@ class CouponResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('coupon_type')
                     ->label(__('coupon.Coupon Type'))
-
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('coupon_condition')
@@ -93,6 +99,14 @@ class CouponResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('expired_date')
                     ->label(__('coupon.Expired Date'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('on_product')
+                    ->label(__('coupon.On product'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('minimum_value')
+                    ->label(__('coupon.Minimum bill value'))
                     ->searchable()
                     ->sortable(),
             ])

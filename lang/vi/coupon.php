@@ -13,7 +13,7 @@ return [
     'Value' => 'Giá trị',
     'Coupon Value' => 'Giá trị',
     'Minimum bill value' => 'Đơn hàng tối thiểu',
-    'On product' => 'Triết khấu trên sản phẩm',
+    'On product' => 'Chiết khấu trên sản phẩm',
     'Applied with other' => 'Dùng cùng các voucher khác',
     'Percentage' => 'Phần trăm',
     'Amount' => 'Giá trị',
