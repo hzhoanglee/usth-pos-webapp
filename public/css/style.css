@@ -266,6 +266,15 @@ p{
     transform: translate(-50%, -50%);
 }
 
+.form-customer-container{
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999999;
+}
+
 .show{
     visibility: visible;
 }
@@ -313,5 +322,12 @@ tr {
     padding: 10px;
 }
 
+.btn-primary{
+    background-color: var(--system_primary_color) !important;
+    border: 1px solid var(--system_primary_color) !important;
+}
 
+.btn-primary:hover{
+    background-color: #0d6efd !important;
+}
 

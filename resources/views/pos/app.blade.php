@@ -360,19 +360,14 @@
                     </p>
                 </div>
 
-                <div class="d-flex justify-items-center justify-content-sm-between mt-3">
+                <div class="d-flex justify-items-center  mt-3">
                     <button class="cancelBtn shadow">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
                         </span>
                         Cancel
                     </button>
-
-                    <button class="holdBtn shadow" onclick="sendQr()">
-                        (DEV)QR Gen
-                    </button>
-
-                    <button class="paymentBtn">
+                    <button class="paymentBtn mx-3">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                         </span>
@@ -439,14 +434,25 @@
                 <h2 class="text-center mb-4">Payment</h2>
 
                 <div class="form-group row">
-                    <label for="customerType" class="col-sm-4 col-form-label">Customer Type:</label>
-                    <div class="col-sm-8">
-                        <select class="form-control" id="customerType" name="customerType">
-                            <option value="new">New Customer</option>
-                            <option value="old">Old Customer</option>
+                    <div class="col-sm-8 d-flex align-items-center">
+                        <label for="customerType" class="col-sm-4 col-form-label">Customer Type:</label>
+
+                        <button type="button" class=" btn btn-primary ml-2 d-flex add-customer">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                            </span>
+                            Add
+                        </button>
+                        <select class="form-control ml-2 mx-3" id="customerType" name="customerType" style="padding: 1px 7px; width: auto">
+                                <option value="new">New Customer</option>
+                                <option value="old">Old Customer</option>
                         </select>
                     </div>
                 </div>
+
+
+
+
 
                 <div class="form-group row">
                     <label for="totalMoney" class="col-sm-4 col-form-label">Total Money:</label>
@@ -456,11 +462,6 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="quantity" class="col-sm-4 col-form-label">Quantity:</label>
-                    <div class="col-sm-8">
-                        <h4>0.00</h4>
-                    </div>
-
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Payment Method:</label>
                         <div class="col-sm-8 button-group btn-group">
@@ -473,14 +474,12 @@
                             </button>
                         </div>
                     </div>
-
-                    <div class="form-group row" id="cashAmount" style="visibility: hidden;">
-                        <label for="cashInput" class="col-sm-4 col-form-label">Cash Amount:</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="cashInput" name="cashInput">
-                        </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Generate QR Code</label>
+                        <button class="btn-secondary btn p-3 col-sm-8 my-3 " onclick="sendQr()">
+                            (DEV)QR Gen
+                        </button>
                     </div>
-
                     <div class="form-group row button-group">
                         <div class="col-sm-6">
                             <button type="button" class="btn btn-secondary close-btn">Close</button>
@@ -491,7 +490,59 @@
                     </div>
                 </div>
             </form>
+
         </div>
+        <div class="form-customer-container">
+            <form class="popup-form container bg-light mt-5 rounded p-3">
+                <h2>Add New Customer</h2>
+                <div class="form-group">
+                    <label for="customerName">Customer Name:</label>
+                    <input type="text" class="form-control" id="customerName" name="customerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerAge">Customer Age:</label>
+                    <input type="number" class="form-control" id="customerAge" name="customerAge" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerPhone ">Customer Phone:</label>
+                    <input type="text" class="form-control" id="customerPhone" name="customerPhone" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="customerEmail">Customer Email:</label>
+                    <input type="email" class="form-control" id="customerEmail" name="customerEmail" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="customerAddress">Customer Address:</label>
+                    <input type="text" class="form-control" id="customerAddress" name="customerAddress" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerZalo">Customer Zalo:</label>
+                    <input type="text" class="form-control" id="customerZalo" name="customerZalo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerCredit">Customer Credit:</label>
+                    <input type="text" class="form-control" id="customerCredit" name="customerCredit" required>
+                </div>
+
+                <div class="form-group row button-group">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-secondary close-btn">Close</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 
@@ -809,32 +860,27 @@
 </script>
 <script>
     $(document).ready(function () {
-        const cashBtn = $('.cash-btn');
-        const creditBtn = $('.credit-btn');
-        const cashAmount = $('#cashAmount');
         const revealBtn = $('.paymentBtn');
-        const formcontainer = $('.form-container');
+        const formContainer = $('.form-container');
+        const formCustomerContainer = $('.form-customer-container');
         const closeBtn = $('.close-btn');
+        const newCustomer = $('.add-customer')
 
 
-
-        cashBtn.click(function () {
-            cashAmount.css('visibility', cashBtn.hasClass('active') ? 'hidden' : 'visible');
+        newCustomer.click(function (){
+            formCustomerContainer.toggleClass('show')
+            formContainer.removeClass('show');
         });
 
-        creditBtn.click(function () {
-            cashAmount.css('visibility', 'hidden');
-        });
 
         revealBtn.click(function () {
-            cashAmount.css('visibility', 'hidden');
-            formcontainer.toggleClass('show');
+            formContainer.toggleClass('show');
         });
 
 
         closeBtn.click(function () {
-            formcontainer.removeClass('show');
-            cashAmount.css('visibility', 'hidden');
+            formContainer.removeClass('show');
+            formCustomerContainer.removeClass('show');
         });
     });
 
