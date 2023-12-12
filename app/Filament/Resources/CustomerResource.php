@@ -45,11 +45,11 @@ class CustomerResource extends Resource
                         #->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer email')),
-                    Forms\Components\TextInput::make('face')->maxWidth(200)
+                    Forms\Components\FileUpload::make('face')->maxWidth(200)
                         ->name(__('customer.Customer Face'))
-                        ->autofocus()
-                        ->required()
-                        ->autocomplete(false)
+                        ->disk('r2')
+                        ->directory(env('APP_ENV').'/customer')
+                        ->visibility('public')
                         ->placeholder(__('customer.Customer Face')),
                     Forms\Components\TextInput::make('address')
                         ->name(__('customer.Customer address'))

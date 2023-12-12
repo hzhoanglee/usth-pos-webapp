@@ -15,6 +15,5 @@ return [
     'Minimum bill value' => 'Minimum bill value',
     'On product' => 'On product',
     'Applied with other' => 'Applied with other',
-    'Percentage' => 'Percentage',
-    'Amount' => 'Amount'
+
 ];

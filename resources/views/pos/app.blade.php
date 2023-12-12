@@ -438,9 +438,6 @@
                         <label for="customerType" class="col-sm-4 col-form-label">Customer Type:</label>
 
                         <button type="button" class=" btn btn-primary ml-2 d-flex add-customer">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="20" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
-                            </span>
                             Add
                         </button>
                         <select class="form-control ml-2 mx-3" id="customerType" name="customerType" style="padding: 1px 7px; width: auto">
@@ -467,7 +464,7 @@
                         <div class="col-sm-8 button-group btn-group">
                             <button type="button" class="btn btn-secondary credit-btn">
                                 <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96v32H576V96c0-35.3-28.7-64-64-64H64zM576 224H0V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V224zM112 352h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm112 16c0-8.8 7.2-16 16-16H368c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16z"/></svg></span>
-                                Credit</button>
+                                Bank Transfer</button>
                             <button type="button" class="btn btn-secondary cash-btn">
                                 <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm64 320H64V320c35.3 0 64 28.7 64 64zM64 192V128h64c0 35.3-28.7 64-64 64zM448 384c0-35.3 28.7-64 64-64v64H448zm64-192c-35.3 0-64-28.7-64-64h64v64zM288 160a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg></span>
                                 Cash
@@ -476,7 +473,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Generate QR Code</label>
-                        <button class="btn-secondary btn p-3 col-sm-8 my-3 " onclick="sendQr()">
+                        <button type="button" class="btn-secondary btn p-3 col-sm-8 my-3 " onclick="sendQr()">
                             (DEV)QR Gen
                         </button>
                     </div>
@@ -546,6 +543,11 @@
     </div>
 </div>
 
+{{--Modal with iframe--}}
+<div class="modal">
+
+</div>
+
 <div class="overlay glass" id="overlay">
     <div class="popup" id="popup">
         <h2>System has been locked</h2>
@@ -560,6 +562,19 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script>
+
+    // Modal with iframe
+    $(document).ready(function(){
+        $('.modal').click(function(){
+            var src = 'https://www.youtube.com/embed/9rJoB7y6JnU';
+            var width = 560;
+            var height = 315;
+            var modal = '<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-body"><iframe width="'+ width +'" height="'+ height +'" src="'+ src +'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div></div></div>';
+            $('body').append(modal);
+            $('#modal').modal('show');
+        });
+    });
+
     // Lock & Lock
     let popup = document.getElementById("overlay");
 
