@@ -3,6 +3,7 @@
     --system-white: #FFFFFF;
     --system-success: #3BDEE9;
     --system-secondary-color-10: rgba(206, 234, 255, 0.59);
+    --system-secondary-color-20: rgba(206, 234, 255, 0.7);
     --text-color: #777777;
     --system-gray: #D6D6D6;
     --neutral-10: #F0F0F0;
@@ -28,7 +29,7 @@ body {
 
 
 .screen_left{
-    flex: 0 0 620px;
+    flex: 0 0 640px;
 
 }
 
@@ -37,6 +38,13 @@ body {
     margin-left: 1rem;
 
 }
+
+img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
 
 .custom-box {
     background-color: #f8f9fa;
@@ -70,14 +78,13 @@ h1, h2, h3{
 }
 
 .form-control{
-    border-radius: 1rem;
     height: 30px;
-    background-color: var(--system_primary_color);
+
 }
 
 .searchBtn{
     height: 30px;
-    border-radius: 1rem;
+    border-radius: .5rem;
     background-color: var(--system_primary_color);
     fill: var(--system-white);
     border: none;
@@ -91,9 +98,7 @@ h1, h2, h3{
     opacity: .6;
 }
 
-.input-group  input::placeholder {
-    color: var(--system-white);
-}
+
 
 th, td{
     padding: 10px;
@@ -152,6 +157,8 @@ p{
     color:var(--system_primary_color);
     background-color: var(--system-secondary-color-10) ;
 }
+
+
 
 .total > p{
     margin: 0;
@@ -225,6 +232,85 @@ p{
 ::-webkit-scrollbar-thumb {
     background: var(--system_primary_color);
     border-radius: 10px;
+}
+
+.popup-form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-btn,
+.submit-btn {
+    width: 100%;
+    cursor: pointer;
+}
+
+.form-container{
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.show{
+    visibility: visible;
+}
+
+.credit-btn:focus{
+    background-color: var(--system_primary_color);
+}
+
+.cash-btn:focus{
+    background-color: var(--system_primary_color);
+}
+
+
+.total_due_value{
+    color: var(--system_primary_color);
+}
+
+.cont{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    position: relative;
+    min-height: 100vh; /* Set a minimum height to fill the viewport */
+}
+.ads_area{
+    padding: 3rem;
+    background-color: var(--system_primary_color);
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+
+
+.prices-totals {
+    position: absolute; /* Set position to absolute */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f8f8;
+    padding: 10px;
 }
 
 
