@@ -36,12 +36,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/playground', [App\Http\Controllers\CartController::class, 'playground']);
     Route::get('/search-product', [App\Http\Controllers\CartController::class, 'searchProduct'])->name('cart.search-cart');
     Route::get('/get-password', [App\Http\Controllers\SettingsController::class, 'getPassword'])->name('get-password');
-
     Route::get('/gen-qr', [App\Http\Controllers\CartController::class, 'generateQr'])->name('cart.generate-qr-code');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {
     Route::get('/app/{screen}', [App\Http\Controllers\POSController::class, 'index'])->name('pos.app');
+    Route::get('/load-customer-info/{id?}', [App\Http\Controllers\POSController::class, 'getCustomerInfo'])->name('cart.get-customer-info');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/notify', ], function () {
