@@ -66,7 +66,7 @@ class CustomerResource extends Resource
                     Forms\Components\TextInput::make('credit')
                         ->name(__('customer.Customer credit'))
                         ->autofocus()
-                        ->required()
+//                        ->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer credit')),
                     Forms\Components\TextInput::make('age')

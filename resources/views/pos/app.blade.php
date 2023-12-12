@@ -3,288 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>CieloPOS</title>
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <style>
-        :root{
-            --system_primary_color: #64BEFF;
-            --system-white: #FFFFFF;
-            --system-success: #3BDEE9;
-            --system-secondary-color-10: rgba(206, 234, 255, 0.59);
-            --text-color: #777777;
-            --system-gray: #D6D6D6;
-            --neutral-10: #F0F0F0;
-            --backkground-color: #EDF8FF
-
-        }
-
-        body {
-            overflow-y: auto;
-        }
-
-        .navbar{
-            background-color: var(--system_primary_color);
-            color: var(--system-white);
-            font-weight: bold;
-
-        }
-
-        .datetime-indicator {
-            font-size: 18px;
-            margin-right: 15px
-        }
-
-
-        .screen_left{
-            flex: 0 0 620px;
-
-        }
-
-        .screen_right{
-            flex: 0 0 65%;
-            margin-left: 1rem;
-
-        }
-
-        .custom-box {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        svg{
-            fill: var(--system-white)
-        }
-
-        h1, h2, h3{
-            color: var(--system_primary_color);
-            font-weight: 600;
-        }
-
-        .scrollableContainer{
-            max-height: 440px;
-            overflow-y: auto;
-
-        }
-
-        .search-group{
-            white-space: nowrap;
-            justify-content: space-between;
-        }
-
-        .input-group{
-            width: 250px;
-        }
-
-        .form-control{
-            border-radius: 1rem;
-            height: 30px;
-            background-color: var(--system_primary_color);
-        }
-
-        .searchBtn{
-            height: 30px;
-            border-radius: 1rem;
-            background-color: var(--system_primary_color);
-            fill: var(--system-white);
-            border: none;
-            z-index: 2;
-            padding-left: 10px;
-            transition: all .3s ease;
-
-        }
-
-        .searchBtn:hover{
-            opacity: .6;
-        }
-
-        .input-group  input::placeholder {
-            color: var(--system-white);
-        }
-
-        th, td{
-            padding: 10px;
-            color: var(--text-color);
-        }
-
-        table {
-            border-collapse: separate;
-            border-spacing: 5px 10px; /* Adjust the second value to set the vertical spacing */
-        }
-
-        .cart-middle{
-            height: 380px;
-        }
-
-        p{
-            margin-bottom:.2rem;
-        }
-
-
-
-
-        .btn-success{
-            background-color: var(--system-success) !important;
-            border: var(--system-success) !important;
-        }
-
-
-        .btn-primary{
-            background-color: var(--system_primary_color);
-            border: var(--system_primary_color);
-        }
-
-        .new-customer{
-            background-color: var(--system-secondary-color-10);
-            border-radius: 1.5rem;
-            padding: .3rem;
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 16px;
-            width: 186px;
-
-        }
-
-        .new-customer svg{
-            fill: var(--text-color);
-            margin-left: 6px;
-        }
-
-        .total{
-            border-radius: .5rem;
-            border: 3px solid var(--system_primary_color);
-            padding: .5rem 1rem;
-            font-size: 20px;
-            font-weight: bold;
-            color:var(--system_primary_color);
-            background-color: var(--system-secondary-color-10) ;
-        }
-
-        .total > p{
-            margin: 0;
-        }
-
-        .cancelBtn, .holdBtn, .paymentBtn{
-            padding: 1rem;
-            width: 180px;
-            border: none;
-            border-radius: .5rem;
-            font-weight: 600;
-        }
-
-        .cancelBtn, .holdBtn{
-           color: var(--text-color);
-        }
-
-        .cancelBtn{
-            background-color: var(--system-gray);
-            transition: all .1s linear;
-        }
-        .cancelBtn:hover{
-            background-color: var(--neutral-10);
-        }
-
-        .cancelBtn > span > svg{
-            fill: var(--text-color);
-        }
-        .holdBtn > span > svg{
-            fill: var(--text-color);
-        }
-
-        .holdBtn{
-            background-color: var(--neutral-10);
-            transition: all .1s linear;
-
-        }
-
-        .holdBtn:hover{
-            background-color: var(--system-gray);
-        }
-
-        .paymentBtn{
-            background-color: var(--system_primary_color);
-            color: var(--system-white);
-            transition: all .1s linear;
-        }
-
-        .paymentBtn:hover{
-            background-color: #0d6efd;
-        }
-
-
-
-        .count{
-            font-size: 14px;
-        }
-
-        ::-webkit-scrollbar {
-            width: 15px;
-
-        }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            box-shadow:  inset 0 0 5px grey;
-            border-radius: 10px;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: var(--system_primary_color);
-            border-radius: 10px;
-        }
-
-
-        .popup{
-            width: 30%;
-            height: 30%;
-            background: #fff;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 30px 30px;
-            color: #333;
-            transition: transform 0.4s, top 0.4s;
-        }
-
-        #popup{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .overlay{
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 150%;
-            height: 150%;
-            background-color: #00bb00;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            visibility: hidden;
-            transform: translate(-50%, -50%) scale(0.1);
-            z-index: 9999;
-        }
-
-        .glass{
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-            backdrop-filter: blur(10px);
-        }
-
-        .open-overlay{
-            visibility: visible;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(1);
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">Your Logo</a>
     <span class="datetime-indicator" id="datetime"></span>
@@ -306,10 +31,6 @@
             </div>
 
             <div>
-                <button class="clear_cart btn btn-danger" onclick="clear_cart()" data-id="{{$screen}}">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></span>
-                    Clear Cart
-                </button>
                 <button class="lock_system btn btn-danger" onclick="lock_system()" data-id="{{$screen}}">
                     Lock System
                 </button>
@@ -361,11 +82,11 @@
                 </div>
 
                 <div class="d-flex justify-items-center  mt-3">
-                    <button class="cancelBtn shadow">
+                    <button class="cancelBtn shadow" onclick="clear_cart()" data-id="{{$screen}}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
                         </span>
-                        Cancel
+                        Clear cart
                     </button>
                     <button class="paymentBtn mx-3">
                         <span>
@@ -430,122 +151,120 @@
 
         </div>
         <div class="form-container">
-            <form class="popup-form bg-light p-3">
-                <h2 class="text-center mb-4">Payment</h2>
+            {{--      Divide 2 part --}}
+            <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column">
+                    <div style="margin-left: 10px"><form class="popup-form bg-light p-3">
+                            <h2 class="text-center mb-4">Payment</h2>
 
-                <div class="form-group row">
-                    <div class="col-sm-8 d-flex align-items-center">
-                        <label for="customerType" class="col-sm-4 col-form-label">Customer Type:</label>
+                            <div class="form-group row">
+                                <div class="col-sm-8 d-flex align-items-center">
+                                    <label for="customerType" class="col-sm-4 col-form-label">Customer:</label>
+                                    <select class="form-control ml-2 mx-3" id="customerType" name="customerType" onchange="loadCustomerData()" style="padding: 1px 7px; width: auto">
+                                        <option value="walk_in">Walk In Customer</option>
+                                        @foreach($customers as $customer)
+                                            <option value="{{$customer->id}}">{{$customer->name}} - {{$customer->phone}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <button type="button" onclick="loadAddCustomerModal()" class="btn btn-primary ml-2 d-flex add-customer">
+                                        Add
+                                    </button>
+                                </div>
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <button type="button" onclick="alert('Dont Panic')" class="btn btn-primary ml-2 d-flex add-customer">
+                                        Face
+                                    </button>
+                                </div>
+                            </div>
 
-                        <button type="button" class=" btn btn-primary ml-2 d-flex add-customer">
-                            Add
-                        </button>
-                        <select class="form-control ml-2 mx-3" id="customerType" name="customerType" style="padding: 1px 7px; width: auto">
-                                <option value="new">New Customer</option>
-                                <option value="old">Old Customer</option>
-                        </select>
-                    </div>
+                            <div class="form-group row">
+                                <label for="totalMoney" class="col-sm-4 col-form-label">Total Money:</label>
+                                <div class="col-sm-8">
+                                    <h4 class="total_due_value">0.00</h4>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Payment Method:</label>
+                                    <div class="col-sm-8 button-group btn-group">
+                                        <input value="bank-transfer" class="form-check-input" type="radio" name="payment-method" id="payment-method" checked>
+                                        <label class="form-check-label" for="payment-method">
+                                            Bank Transfer
+                                        </label>
+                                        <input value="cash" class="form-check-input" type="radio" name="payment-method" id="payment-method">
+                                        <label class="form-check-label" for="payment-method">
+                                            Cash
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="gen-qr-button">
+                                    <label class="col-sm-4 col-form-label">Generate QR Code</label>
+                                    <button type="button" class="btn-secondary btn p-3 col-sm-8 my-3 " onclick="sendQr()">
+                                        (DEV)QR Gen
+                                    </button>
+                                </div>
+                                <div class="form-group row button-group">
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-secondary close-btn">Close</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form></div>
                 </div>
-
-
-
-
-
-                <div class="form-group row">
-                    <label for="totalMoney" class="col-sm-4 col-form-label">Total Money:</label>
-                    <div class="col-sm-8">
-                        <h4 class="total_due_value">0.00</h4>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Payment Method:</label>
-                        <div class="col-sm-8 button-group btn-group">
-                            <button type="button" class="btn btn-secondary credit-btn">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96v32H576V96c0-35.3-28.7-64-64-64H64zM576 224H0V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V224zM112 352h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm112 16c0-8.8 7.2-16 16-16H368c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16z"/></svg></span>
-                                Bank Transfer</button>
-                            <button type="button" class="btn btn-secondary cash-btn">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm64 320H64V320c35.3 0 64 28.7 64 64zM64 192V128h64c0 35.3-28.7 64-64 64zM448 384c0-35.3 28.7-64 64-64v64H448zm64-192c-35.3 0-64-28.7-64-64h64v64zM288 160a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg></span>
-                                Cash
-                            </button>
+                <div class="d-flex flex-column">
+                    <div style="margin-left: 10px">
+                        <div class="popup-form bg-light p-3">
+                            <h2 class="text-center mb-4">Customer Information</h2>
+                            <div class="form-group row">
+                                <label for="customerName" class="col-sm-4 col-form-label">Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" disabled id="customerName">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="customerAge" class="col-sm-4 col-form-label">Age:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" disabled id="customerAge">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="customerPhone" class="col-sm-4 col-form-label">Phone:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" disabled id="customerPhone">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="customerBloodType" class="col-sm-4 col-form-label">BloodType:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" disabled id="customerBloodType">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="customerAllergy" class="col-sm-4 col-form-label">Allergy:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" disabled id="customerAllergy">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="customerSymptomps" class="col-sm-4 col-form-label">Symptomps:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" disabled id="customerSymptomps">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Generate QR Code</label>
-                        <button type="button" class="btn-secondary btn p-3 col-sm-8 my-3 " onclick="sendQr()">
-                            (DEV)QR Gen
-                        </button>
-                    </div>
-                    <div class="form-group row button-group">
-                        <div class="col-sm-6">
-                            <button type="button" class="btn btn-secondary close-btn">Close</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-                        </div>
-                    </div>
                 </div>
-            </form>
+            </div>
 
-        </div>
-        <div class="form-customer-container">
-            <form class="popup-form container bg-light mt-5 rounded p-3">
-                <h2>Add New Customer</h2>
-                <div class="form-group">
-                    <label for="customerName">Customer Name:</label>
-                    <input type="text" class="form-control" id="customerName" name="customerName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerAge">Customer Age:</label>
-                    <input type="number" class="form-control" id="customerAge" name="customerAge" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerPhone ">Customer Phone:</label>
-                    <input type="text" class="form-control" id="customerPhone" name="customerPhone" required>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="customerEmail">Customer Email:</label>
-                    <input type="email" class="form-control" id="customerEmail" name="customerEmail" required>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="customerAddress">Customer Address:</label>
-                    <input type="text" class="form-control" id="customerAddress" name="customerAddress" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerZalo">Customer Zalo:</label>
-                    <input type="text" class="form-control" id="customerZalo" name="customerZalo" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerCredit">Customer Credit:</label>
-                    <input type="text" class="form-control" id="customerCredit" name="customerCredit" required>
-                </div>
-
-                <div class="form-group row button-group">
-                    <div class="col-sm-6">
-                        <button type="button" class="btn btn-secondary close-btn">Close</button>
-                    </div>
-                    <div class="col-sm-6">
-                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-                    </div>
-                </div>
-            </form>
         </div>
 
     </div>
-</div>
-
-{{--Modal with iframe--}}
-<div class="modal">
-
 </div>
 
 <div class="overlay glass" id="overlay">
@@ -557,23 +276,64 @@
     </div>
 </div>
 
+<div class="glass" id="blur" style="display: none"></div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
 
-    // Modal with iframe
-    $(document).ready(function(){
-        $('.modal').click(function(){
-            var src = 'https://www.youtube.com/embed/9rJoB7y6JnU';
-            var width = 560;
-            var height = 315;
-            var modal = '<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-body"><iframe width="'+ width +'" height="'+ height +'" src="'+ src +'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div></div></div>';
-            $('body').append(modal);
-            $('#modal').modal('show');
+    // Select2
+    $(document).ready(function() {
+        $('#customerType').select2();
+        // on change of payment method
+        $('input[type=radio][name=payment-method]').change(function() {
+            if (this.value === 'bank-transfer') {
+                $('#gen-qr-button').show();
+            } else {
+                $('#gen-qr-button').hide();
+            }
         });
     });
+
+    // Modal with iframe
+    function loadAddCustomerModal() {
+        $('#n-user').modal('show');
+        ifrhgh();
+    }
+
+    function ifrhgh(){
+        let n_user = $("#n-user");
+        let iframe = $("#print_frame");
+        let modal_height = $(window).height()*75/100;
+        let iframe_width = $('.modal-dialog').width()*95/100;
+        n_user.height(modal_height*120/100);
+        iframe.width(iframe_width);
+        iframe.height(modal_height);
+    }
+
+    function loadCustomerData() {
+        let id = $('#customerType').val();
+        $.ajax({
+            url: '{{route('cart.get-customer-info')}}/' + id,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                $('#customerName').val(data.name);
+                $('#customerAge').val(data.age);
+                $('#customerPhone').val(data.mobile);
+                $('#customerBloodType').val(data.details['Blood type']);
+                $('#customerAllergy').val(data.details.Allergy);
+                $('#customerSymptomps').val(data.details.Symptoms);
+            }, error: function(data) {
+                flasher.notyf.error("Cannot find that user", {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
+    }
 
     // Lock & Lock
     let popup = document.getElementById("overlay");
@@ -844,6 +604,7 @@
 </script>
 <script>
     update_cart();
+    update_total();
     setInterval(updateDateTime, 1000);
     updateDateTime();
 </script>
@@ -867,10 +628,16 @@
                 console.log(loadNeedleCode());
                 callCheck(loadNeedleCode());
                 break;
+            case 'new_customer_id':
+                console.log(data.msg_data);
+                console.log(data.msg_data.id);
+                $('#n-user').modal('hide');
+                let customer_box = $('#customerType');
+                customer_box.append('<option value="'+data.msg_data.id+'">'+data.msg_data.name+' - '+data.msg_data.phone+'</option>');
+                customer_box.val(data.msg_data.id).trigger('change');
+                break;
         }
     });
-
-
 
 </script>
 <script>
@@ -879,23 +646,19 @@
         const formContainer = $('.form-container');
         const formCustomerContainer = $('.form-customer-container');
         const closeBtn = $('.close-btn');
-        const newCustomer = $('.add-customer')
-
-
-        newCustomer.click(function (){
-            formCustomerContainer.toggleClass('show')
-            formContainer.removeClass('show');
-        });
+        const blur = $('#blur');
 
 
         revealBtn.click(function () {
             formContainer.toggleClass('show');
+            blur.toggleClass('show');
         });
 
 
         closeBtn.click(function () {
             formContainer.removeClass('show');
             formCustomerContainer.removeClass('show');
+            blur.removeClass('show');
         });
     });
 
@@ -903,5 +666,18 @@
 
 
 </script>
+<div class="modal" tabindex="-1" id="n-user" style="position: fixed; width: 100vw; padding: 50px;">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="print_frame" src="/admin/customers/create" style="background-color: rgb(23, 22, 26); border-radius: 5px; width: 100%; height: 100%;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
