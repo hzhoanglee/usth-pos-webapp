@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/clear', [App\Http\Controllers\CartController::class, 'clearCartRoute'])->name('cart.clear-cart-route');
     Route::get('/playground', [App\Http\Controllers\CartController::class, 'playground']);
     Route::get('/search-product', [App\Http\Controllers\CartController::class, 'searchProduct'])->name('cart.search-cart');
+    Route::get('/get-password', [App\Http\Controllers\SettingsController::class, 'getPassword'])->name('get-password');
 
     Route::get('/gen-qr', [App\Http\Controllers\CartController::class, 'generateQr'])->name('cart.generate-qr-code');
 });

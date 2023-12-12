@@ -7,12 +7,288 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <style>
+        :root{
+            --system_primary_color: #64BEFF;
+            --system-white: #FFFFFF;
+            --system-success: #3BDEE9;
+            --system-secondary-color-10: rgba(206, 234, 255, 0.59);
+            --text-color: #777777;
+            --system-gray: #D6D6D6;
+            --neutral-10: #F0F0F0;
+            --backkground-color: #EDF8FF
+
+        }
+
+        body {
+            overflow-y: auto;
+        }
+
+        .navbar{
+            background-color: var(--system_primary_color);
+            color: var(--system-white);
+            font-weight: bold;
+
+        }
+
+        .datetime-indicator {
+            font-size: 18px;
+            margin-right: 15px
+        }
+
+
+        .screen_left{
+            flex: 0 0 620px;
+
+        }
+
+        .screen_right{
+            flex: 0 0 65%;
+            margin-left: 1rem;
+
+        }
+
+        .custom-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        svg{
+            fill: var(--system-white)
+        }
+
+        h1, h2, h3{
+            color: var(--system_primary_color);
+            font-weight: 600;
+        }
+
+        .scrollableContainer{
+            max-height: 440px;
+            overflow-y: auto;
+
+        }
+
+        .search-group{
+            white-space: nowrap;
+            justify-content: space-between;
+        }
+
+        .input-group{
+            width: 250px;
+        }
+
+        .form-control{
+            border-radius: 1rem;
+            height: 30px;
+            background-color: var(--system_primary_color);
+        }
+
+        .searchBtn{
+            height: 30px;
+            border-radius: 1rem;
+            background-color: var(--system_primary_color);
+            fill: var(--system-white);
+            border: none;
+            z-index: 2;
+            padding-left: 10px;
+            transition: all .3s ease;
+
+        }
+
+        .searchBtn:hover{
+            opacity: .6;
+        }
+
+        .input-group  input::placeholder {
+            color: var(--system-white);
+        }
+
+        th, td{
+            padding: 10px;
+            color: var(--text-color);
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 5px 10px; /* Adjust the second value to set the vertical spacing */
+        }
+
+        .cart-middle{
+            height: 380px;
+        }
+
+        p{
+            margin-bottom:.2rem;
+        }
+
+
+
+
+        .btn-success{
+            background-color: var(--system-success) !important;
+            border: var(--system-success) !important;
+        }
+
+
+        .btn-primary{
+            background-color: var(--system_primary_color);
+            border: var(--system_primary_color);
+        }
+
+        .new-customer{
+            background-color: var(--system-secondary-color-10);
+            border-radius: 1.5rem;
+            padding: .3rem;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 16px;
+            width: 186px;
+
+        }
+
+        .new-customer svg{
+            fill: var(--text-color);
+            margin-left: 6px;
+        }
+
+        .total{
+            border-radius: .5rem;
+            border: 3px solid var(--system_primary_color);
+            padding: .5rem 1rem;
+            font-size: 20px;
+            font-weight: bold;
+            color:var(--system_primary_color);
+            background-color: var(--system-secondary-color-10) ;
+        }
+
+        .total > p{
+            margin: 0;
+        }
+
+        .cancelBtn, .holdBtn, .paymentBtn{
+            padding: 1rem;
+            width: 180px;
+            border: none;
+            border-radius: .5rem;
+            font-weight: 600;
+        }
+
+        .cancelBtn, .holdBtn{
+           color: var(--text-color);
+        }
+
+        .cancelBtn{
+            background-color: var(--system-gray);
+            transition: all .1s linear;
+        }
+        .cancelBtn:hover{
+            background-color: var(--neutral-10);
+        }
+
+        .cancelBtn > span > svg{
+            fill: var(--text-color);
+        }
+        .holdBtn > span > svg{
+            fill: var(--text-color);
+        }
+
+        .holdBtn{
+            background-color: var(--neutral-10);
+            transition: all .1s linear;
+
+        }
+
+        .holdBtn:hover{
+            background-color: var(--system-gray);
+        }
+
+        .paymentBtn{
+            background-color: var(--system_primary_color);
+            color: var(--system-white);
+            transition: all .1s linear;
+        }
+
+        .paymentBtn:hover{
+            background-color: #0d6efd;
+        }
+
+
+
+        .count{
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 15px;
+
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow:  inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: var(--system_primary_color);
+            border-radius: 10px;
+        }
+
+
+        .popup{
+            width: 30%;
+            height: 30%;
+            background: #fff;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 30px 30px;
+            color: #333;
+            transition: transform 0.4s, top 0.4s;
+        }
+
+        #popup{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay{
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            background-color: #00bb00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            transform: translate(-50%, -50%) scale(0.1);
+            z-index: 9999;
+        }
+
+        .glass{
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(10px);
+        }
+
+        .open-overlay{
+            visibility: visible;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1);
+        }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">Your Logo</a>
     <span class="datetime-indicator" id="datetime"></span>
+
 </nav>
 <div class="container d-flex m-0"><div class="screen_left shadow p-3 bg-white rounded">
         <label for="cart_id">CartID</label>
@@ -34,6 +310,13 @@
                     <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></span>
                     Clear Cart
                 </button>
+                <button class="lock_system btn btn-danger" onclick="lock_system()" data-id="{{$screen}}">
+                    Lock System
+                </button>
+                <button class="unlock_system btn btn-danger" onclick="unlock_system()" data-id="{{$screen}}">
+                    Unlock System
+                </button>
+                <button type="button" class="btn" onclick="lockSystem()">Lock</button>
             </div>
 
         </div>
@@ -96,8 +379,6 @@
                         Payments
                     </button>
                 </div>
-
-
 
             </div>
         </div>
@@ -214,12 +495,58 @@
     </div>
 </div>
 
+<div class="overlay glass" id="overlay">
+    <div class="popup" id="popup">
+        <h2>System has been locked</h2>
+        <label for="textInput">Enter Text:</label>
+        <input type="text" id="textInput" name="textInput">
+        <button type="button" onclick="unlockSystem()">Unlock</button>
+    </div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script>
+    // Lock & Lock
+    let popup = document.getElementById("overlay");
+
+    function lockSystem (){
+        popup.classList.add("open-overlay");
+    }
+    function unlockSystem (){
+        $.ajax({
+            url: '{{route('get-password')}}',
+            method: 'GET',
+            // data: {
+            //     password: ,
+            //     // Other necessary data
+            // },
+            success: function(response) {
+                // Handle the response from the server
+
+                console.log(response);
+                var userInput = document.getElementById('textInput').value;
+                let count = 0;
+                for (let i =0; i <= response.length; i++) {
+                    if (userInput === response[i]){
+                        console.log('1 matches')
+                        count += 1;
+                    }
+                }
+
+                if (count >= 1){
+                    popup.classList.remove("open-overlay");
+                }
+            },
+            error: function(error) {
+                // Handle errors
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
+    }
+
     function add_to_cart(product_id) {
         $.ajax({
             url: '{{route('cart.add-to-cart')}}',
@@ -287,6 +614,7 @@
             }
         });
     }
+
 
     function updateDateTime() {
         var now = new Date();
