@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TagResource\Pages;
-use App\Filament\Resources\TagResource\RelationManagers;
-use App\Models\Tag;
+use App\Filament\Resources\SettingsResource\Pages;
+use App\Filament\Resources\SettingsResource\RelationManagers;
+use App\Models\Settings;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,23 +13,25 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class TagResource extends Resource
+class SettingsResource extends Resource
 {
-    protected static ?string $model = Tag::class;
+    protected static ?string $model = Settings::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'System Managements';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tag_name')
-                    ->name(__('tag.Tag'))
+                Forms\Components\TextInput::make('unlock_password')
+                    ->label('POS screen password')
+                    ->autofocus()
                     ->required()
+                    ->unique()
                     ->autocomplete(false)
-                    ->placeholder(__('tag.Tag name'))
-
+                    ->placeholder('Enter new password'),
             ]);
     }
 
@@ -37,10 +39,10 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tag_name')
-                    ->label(__('tag.Tag name'))
-                ->searchable()
-                ->sortable()
+                Tables\Columns\TextColumn::make('unlock_password')
+                    ->label('POS Screen Password')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -65,17 +67,9 @@ class TagResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTags::route('/'),
-            'create' => Pages\CreateTag::route('/create'),
-            'edit' => Pages\EditTag::route('/{record}/edit'),
+            'index' => Pages\ListSettings::route('/'),
+            'create' => Pages\CreateSettings::route('/create'),
+            'edit' => Pages\EditSettings::route('/{record}/edit'),
         ];
-    }
-
-    public static function getModelLabel(): String{
-        return __('tag.Tag');
-    }
-    public static function getPluralLabel(): ?string
-    {
-        return __('tag.Tag');
     }
 }
