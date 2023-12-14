@@ -11,7 +11,7 @@ class POSController extends Controller
     {
         $screen = $request->screen;
         $products = \App\Models\Product::all();
-        $customers = \App\Models\Customer::select('id', 'name', 'phone')->get();
+        $customers = \App\Models\Customer::select('id', 'name', 'mobile')->get();
         notyf()->position('x', 'right')
             ->position('y', 'top')->addSuccess('Hi, Have a nice day!');
         return view('pos.app', compact('screen', 'products', 'customers'));
