@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
@@ -171,7 +172,7 @@ class CartController extends Controller
                         "name" => $product->product_name,
                         "quantity" => 1,
                         "price" => $price,
-                        "photo" => $product->product_image,
+                        "photo" => (!str_contains($product->product_image,'http')) ? Storage::disk('r2')->url($product->product_image) : $product->product_image,
                         'tax' => $product->tax,
                         'type' => (string)$product_type
                     ];
@@ -194,7 +195,7 @@ class CartController extends Controller
                             "name" => $product->product_name,
                             "quantity" => 1,
                             "price" => $price,
-                            "photo" => $product->product_image,
+                            "photo" => (!str_contains($product->product_image,'http')) ? Storage::disk('r2')->url($product->product_image) : $product->product_image,
                             'tax' => $product->tax,
                             'type' => (string)$product_type
                         ];
@@ -330,8 +331,13 @@ class CartController extends Controller
     {
         try {
             $cart = $this->getCart(intval($cart_id));
-            $cart_value = $this->getCartSubtotal($cart_id);
-            $coupon = ($coupon_id != 0) ? Coupon::where('coupon_code', $coupon_id)->first() : [];
+            $coupon = [];
+            foreach($cart as $item) {
+                if(array_key_exists(3, $item)) {
+                    $coupon[] = $item[3]['name'];
+                }
+            }
+            $cart_value = $this->getCartSubtotal($cart_id)['data'];
             $orders = new Order();
             $orders->customer_id = $customer_id;
             $orders->carts = $cart;
