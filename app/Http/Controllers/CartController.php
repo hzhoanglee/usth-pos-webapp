@@ -32,6 +32,7 @@ class CartController extends Controller
     public function addToCartByCode(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
+            event(new \App\Events\PushPosData($request->screen_id, 'new_product', "12"));
             $product_id = Product::where('barcode', $request->barcode)->first();
             $response = $this->addProductToCart($request->screen_id, $product_id->id, $request->cart_id, $request->selling_type);
             return response()->json(['status' => true], 200);

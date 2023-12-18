@@ -724,6 +724,10 @@
                 console.log(loadNeedleCode());
                 callCheck(loadNeedleCode());
                 break;
+            case 'new_product':
+                update_cart();
+                update_total();
+                break;
             case 'new_customer_id':
                 console.log(data.msg_data);
                 console.log(data.msg_data.id);
