@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CouponResource\Pages;
 use App\Filament\Resources\CouponResource\RelationManagers;
 use App\Models\Coupon;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,16 +36,16 @@ class CouponResource extends Resource
                     ->label(__('coupon.Started Date'))
                     ->required()
                     ->placeholder(__('coupon.Started Date'))
-                    ->format('d-m-Y')
-                    ->minDate(now()->format('d-m-Y'))
-                    ->maxDate(now()->addYear()->format('d-m-Y')),
+                    ->dehydrateStateUsing(fn (string $state): string => Carbon::parse($state)->startOfDay()->toISOString())
+                    ->minDate('2000-01-01')
+                    ->maxDate('2099-12-31'),
                 Forms\Components\DatePicker::make('expired_date')
                     ->label(__('coupon.Expired Date'))
                     ->required()
                     ->placeholder(__('coupon.Expired Date'))
-                    ->format('d-m-Y')
-                    ->minDate(now()->format('d-m-Y'))
-                    ->maxDate(now()->addYear()->format('d-m-Y')),
+                    ->dehydrateStateUsing(fn (string $state): string => Carbon::parse($state)->startOfDay()->toISOString())
+                    ->minDate('2000-01-01')
+                    ->maxDate('2099-12-31'),
                 Forms\Components\Select::make('coupon_type')
                     ->label(__('coupon.Coupon Type'))
                     ->placeholder(__('coupon.Coupon Type'))
@@ -55,21 +56,17 @@ class CouponResource extends Resource
                         ]),
                 Forms\Components\CheckboxList::make('coupon_condition')
                     ->label(__('coupon.Condition'))
-                    ->required()
                     ->name(__('coupon.Coupon condition'))
                     ->options([
-                        'Minimum bill value' => __('coupon.Minimum bill value'),
-                        'on products' => __('coupon.On product'),
-                        'applied with other' => __('coupon.Applied with other'),
-                        'on products' => 'On product',
-                        'applied with other' => 'Applied with other',
+                        'min_bill_value' => __('coupon.Minimum bill value'),
                     ]),
                 Forms\Components\TextInput::make('coupon_minimum_condition')
-                    ->name(__('coupon.Coupon minimum condition'))
+                    ->name(__('coupon.Minimum bill value'))
                     ->autofocus()
                     ->autocomplete(false)
-                    ->placeholder(__('coupon.Coupon minimum condition')),
+                    ->placeholder(__('coupon.Minimum bill value')),
                 Forms\Components\TextInput::make('coupon_value')
+                    ->type('float')
                     ->label(__('coupon.Coupon Value'))
                     ->autofocus()
                     ->required()
@@ -97,10 +94,12 @@ class CouponResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('started_date')
                     ->label(__('coupon.Started Date'))
+                    ->date('Y-m-d')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('expired_date')
                     ->label(__('coupon.Expired Date'))
+                    ->date('Y-m-d')
                     ->searchable()
                     ->sortable(),
             ])

@@ -15,6 +15,8 @@ return [
     'OK' => 'OK',
     'Refund' => 'Refund',
     'Partly refund' => 'Partly refund',
-    'User' => 'User'
+    'User' => 'User',
+    'Paid' => 'Paid',
+    'Payment method' => 'Payment method',
 
 ];

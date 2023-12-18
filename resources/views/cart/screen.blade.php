@@ -47,7 +47,7 @@ tr {
 
         <p class="d-flex justify-content-sm-between">
             <span style="font-weight: bold; color: var(--system_primary_color)">Discount:</span>
-            <span>0</span>
+            <span id="discount_value">0</span>
         </p>
 
         <p class="d-flex justify-content-sm-between">
@@ -158,6 +158,17 @@ tr {
                 row.append(name, unit, price, qty);
                 cart_table.append(row);
             }
+            if (product[3] !== undefined) {
+                let product_item = product[3];
+                let row = $('<tr></tr>');
+                let name = $('<td></td>').text(product_item.name);
+                let unit = $('<td></td>').text("Coupon");
+                let price = $('<td></td>').text(product_item.price);
+                let qty = $('<td></td>').text(product_item.quantity);
+                // let photo = $('<td></td>').append($('<img>').attr('src', product_item.photo).css('width', '100px'));
+                row.append(name, unit, price, qty);
+                cart_table.append(row);
+            }
         });
     }
 
@@ -179,7 +190,7 @@ tr {
             method: 'GET',
             success: function(data) {
                 console.log(data);
-                update_total_value(data.data.subtotal, data.data.vat, data.data.total_due);
+                update_total_value(data.data.subtotal, data.data.vat, data.data.total_due, data.data.discount);
             }, error: function(data) {
                 flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
@@ -194,10 +205,11 @@ tr {
         qr.html(svg);
     }
 
-    function update_total_value(subtotal, vat, total_due) {
+    function update_total_value(subtotal, vat, total_due, discount) {
         $('#subtotal_value').text(subtotal);
         $('#tax_value').text(vat);
         $('#total_due_value').text(total_due);
+        $('#discount_value').text(discount);
     }
 
     function clear_screen() {

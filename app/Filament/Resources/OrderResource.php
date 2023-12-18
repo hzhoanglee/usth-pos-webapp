@@ -21,6 +21,7 @@ class OrderResource extends Resource
 
     protected static ?string $navigationGroup = 'Order Managements';
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -96,42 +97,34 @@ class OrderResource extends Resource
         return $table
             ->columns([
 
-                Tables\Columns\TextColumn::make('order_id')
+                Tables\Columns\TextColumn::make('id')
                     ->label(__('order.Order ID'))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('client')
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('manager.Cashier'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('client.name')
                     ->label(__('order.Client'))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('price_before_discount')
-                    ->label(__('order.Price before discount'))
+                Tables\Columns\TextColumn::make('value.total_due')
+                    ->label(__('order.Paid'))
+                    ->money('vnd')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('apply_coupons')
+                Tables\Columns\TextColumn::make('coupon')
                     ->label(__('order.Apply coupons'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('price_after_discount')
-                    ->label(__('order.Price after discount'))
-                    ->searchable()
-                    ->sortable(),
 
-                Tables\Columns\TextColumn::make('status')
-                    ->label(__('order.Status'))
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('order.User'))
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('order_date')
-                    ->label(__('order.Oder date'))
+                Tables\Columns\TextColumn::make('payment_type')
+                    ->label(__('order.Payment method'))
                     ->searchable()
                     ->sortable(),
 
@@ -140,12 +133,12 @@ class OrderResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+//                Tables\Actions\BulkActionGroup::make([
+//                    Tables\Actions\DeleteBulkAction::make(),
+//                ]),
             ]);
     }
 
@@ -160,8 +153,9 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+//            'create' => Pages\CreateOrder::route('/create'),
+//            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'view' => Pages\ViewOrder::route('/{record}')
         ];
     }
 

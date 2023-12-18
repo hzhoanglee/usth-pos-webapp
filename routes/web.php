@@ -37,11 +37,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/search-product', [App\Http\Controllers\CartController::class, 'searchProduct'])->name('cart.search-cart');
     Route::get('/get-password', [App\Http\Controllers\SettingsController::class, 'getPassword'])->name('get-password');
     Route::get('/gen-qr', [App\Http\Controllers\CartController::class, 'generateQr'])->name('cart.generate-qr-code');
+    Route::get('/get-coupons-list', [App\Http\Controllers\CartController::class, 'getCouponList'])->name('cart.get-coupon-list');
+    Route::get('/apply-coupon', [App\Http\Controllers\CartController::class, 'applyCoupon'])->name('cart.apply-coupon');
+    Route::post('/checkout', [App\Http\Controllers\CartController::class, 'generateCheckout'])->name('pos.perform-checkout');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {
     Route::get('/app/{screen}', [App\Http\Controllers\POSController::class, 'index'])->name('pos.app');
-    Route::get('/load-customer-info/{id?}', [App\Http\Controllers\POSController::class, 'getCustomerInfo'])->name('cart.get-customer-info');
+    Route::get('/load-customer-info/{id?}', [App\Http\Controllers\POSController::class, 'getCustomerInfo'])->name('pos.get-customer-info');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/notify', ], function () {

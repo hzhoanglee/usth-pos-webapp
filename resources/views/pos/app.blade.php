@@ -67,7 +67,7 @@
                     </p>
 
                     <p class="d-flex justify-content-sm-between">
-                        <span style="font-weight: bold; color: var(--system_primary_color)">Discount:</span> <span>0</span>
+                        <span style="font-weight: bold; color: var(--system_primary_color)">Discount:</span> <span id="discount_value">0</span>
                     </p>
 
                     <p class="d-flex justify-content-sm-between">
@@ -93,6 +93,12 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                         </span>
                         Payments
+                    </button>
+                    <button class="couponBtn mx-3">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                        </span>
+                        Coupons
                     </button>
                 </div>
 
@@ -138,7 +144,7 @@
                             </td>
                             <td>Box: {{$product->price_box_discounted}} <br> Item: {{$product->price_item_discounted}}</td>
                             <td>{{$product->quantity}}</td>
-                            <td><img src="{{$product->product_image}}" height="70px" width="70px" alt="{{$product->id}}"></td>
+                            <td><img src="{{(!str_contains($product->product_image,'http')) ? Storage::disk('r2')->url($product->product_image) : $product->product_image}}" height="70px" width="70px" alt="{{$product->id}}"></td>
                             <td>
                                 <button class="add_to_cart btn btn-primary" onclick="add_to_cart('{{$product->id}}')" data-id="{{$product->id}}">
                                     <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg></span>Add to Cart</button>
@@ -163,7 +169,7 @@
                                     <select class="form-control ml-2 mx-3" id="customerType" name="customerType" onchange="loadCustomerData()" style="padding: 1px 7px; width: auto">
                                         <option value="walk_in">Walk In Customer</option>
                                         @foreach($customers as $customer)
-                                            <option value="{{$customer->id}}">{{$customer->name}} - {{$customer->phone}}</option>
+                                            <option value="{{$customer->id}}">{{$customer->name}} - {{$customer->mobile}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -319,7 +325,7 @@
     function loadCustomerData() {
         let id = $('#customerType').val();
         $.ajax({
-            url: '{{route('cart.get-customer-info')}}/' + id,
+            url: '{{route('pos.get-customer-info')}}/' + id,
             method: 'GET',
             success: function(data) {
                 console.log(data);
@@ -425,7 +431,7 @@
     function clear_cart() {
         let cart_id = $('#cart_id').val();
         $("#middle-table").find("tr:gt(0)").remove();
-        update_total_value(0, 0, 0);
+        update_total_value(0, 0, 0, 0);
         $.ajax({
             url: '{{route('cart.clear-cart-route')}}',
             method: 'GET',
@@ -440,7 +446,6 @@
             }
         });
     }
-
 
     function updateDateTime() {
         var now = new Date();
@@ -493,6 +498,18 @@
                 row.append(name, unit, price, qty, photo, action);
                 cart_table.append(row);
             }
+            if (product[3] !== undefined) {
+                let row = $('<tr class="shadow bg-white rounded" id="product_' + product_id + '_' + '3' + '"></tr>');
+                let coupon = product[3];
+                let name = $('<td></td>').text(coupon.name);
+                let unit = $('<td></td>').text("Coupon");
+                let price = $('<td></td>').text(coupon.price);
+                let qty = $('<td></td>').html(1);
+                let photo = $('<td></td>');
+                let action = $('<td></td>').html('<button class="btn btn-danger" onclick="remove_from_cart(\''+product_id+'\', 3)">Remove</button>');
+                row.append(name, unit, price, qty, photo, action);
+                cart_table.append(row);
+            }
         });
     }
 
@@ -534,17 +551,19 @@
             method: 'GET',
             success: function(data) {
                 console.log(data);
-                update_total_value(data.data.subtotal, data.data.vat, data.data.total_due);
+                update_total_value(data.data.subtotal, data.data.vat, data.data.total_due, data.data.discount);
             }, error: function(data) {
                 flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
             }
         });
     }
 
-    function update_total_value(subtotal, vat, total_due) {
+    function update_total_value(subtotal, vat, total_due, discount) {
         $('#subtotal_value').text(subtotal);
         $('#tax_value').text(vat);
         $('.total_due_value').text(total_due);
+        $('#discount_value').text(discount);
+
     }
 
     function sendQr() {
@@ -580,9 +599,30 @@
     }
 
     function checkoutSuccess() {
-        // TODO: POC
-        flasher.notyf.success('Checkout success', {position: {x:'right',y:'top'}, dismissible: true});
-        clear_cart();
+        let cart_id = $('#cart_id').val();
+        let customer_id = $('#customerType').val();
+        let payment_method = $('input[name=payment-method]:checked').val();
+        $.ajax({
+            url: '{{route('pos.perform-checkout')}}',
+            method: 'POST',
+            data: {
+                cart_id: cart_id,
+                customer_id: customer_id,
+                payment_type: payment_method,
+                payment_record: 0,
+                _token: '{{csrf_token()}}',
+            },
+            success: function(data) {
+                console.log(data);
+                flasher.notyf.success(data.message, {position: {x:'right',y:'top'}, dismissible: true});
+                clear_cart();
+                $('.form-container').removeClass('show');
+                $('.form-customer-container').removeClass('show');
+                blur.removeClass('show');
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
     }
 
     function saveNeedleCode(needle) {
@@ -598,6 +638,62 @@
     function clearNeedleCode() {
         let cart_id = $('#cart_id').val();
         localStorage.removeItem('cart_' + cart_id);
+    }
+
+    function loadCouponList() {
+        $.ajax({
+            url: '{{route('cart.get-coupon-list')}}?cart_id=' + $('#cart_id').val(),
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                displayCouponList(data);
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
+    }
+
+    function displayCouponList(coupons) {
+        $('#n-coupon').modal('show');
+        let coupon_table = $('#n-coupon-table tbody');
+        coupon_table.empty();
+        $.each(coupons, function(key, coupon) {
+            let row = $('<tr class="shadow bg-white rounded"></tr>');
+            let name = $('<td></td>').text(coupon.coupon_code);
+            let type = $('<td></td>').text(coupon.coupon_type);
+            let amount = $('<td></td>').text(coupon.coupon_value);
+            if(coupon.coupon_type === 'percent') {
+                amount.append('%');
+            } else {
+                amount.append('VND');
+            }
+            let min_apply = $('<td></td>');
+            if(coupon.coupon_condition === null || coupon.coupon_condition === []) {
+                min_apply.text(0);
+            } else {
+                min_apply.text(coupon.coupon_minimum_condition);
+            }
+            let expire = $('<td></td>').text(coupon.expired_date);
+            let action = $('<td></td>').html('<button class="btn btn-primary" onclick="applyCoupon(\''+coupon.coupon_code+'\')">Apply</button>');
+            row.append(name, type, amount, min_apply, expire, action);
+            coupon_table.append(row);
+        });
+    }
+
+    function applyCoupon(coupon_code) {
+        $.ajax({
+            url: '{{route('cart.apply-coupon')}}?cart_id=' + $('#cart_id').val() + '&coupon_id=' + coupon_code,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                flasher.notyf.success(data.message, {position: {x:'right',y:'top'}, dismissible: true});
+                update_cart();
+                update_total();
+                $('#n-coupon').modal('hide');
+            }, error: function(data) {
+                flasher.notyf.error(data.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+            }
+        });
     }
 
 
@@ -646,12 +742,17 @@
         const formContainer = $('.form-container');
         const formCustomerContainer = $('.form-customer-container');
         const closeBtn = $('.close-btn');
+        const couponBtn = $('.couponBtn');
         const blur = $('#blur');
 
 
         revealBtn.click(function () {
             formContainer.toggleClass('show');
             blur.toggleClass('show');
+        });
+
+        couponBtn.click(function () {
+            loadCouponList();
         });
 
 
@@ -675,6 +776,35 @@
             </div>
             <div class="modal-body">
                 <iframe id="print_frame" src="/admin/customers/create" style="background-color: rgb(23, 22, 26); border-radius: 5px; width: 100%; height: 100%;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="n-coupon" style="position: fixed; width: 100vw; padding: 50px;">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Coupon List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table" id="n-coupon-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Coupon</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Minimum apply</th>
+                            <th>Expire</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
