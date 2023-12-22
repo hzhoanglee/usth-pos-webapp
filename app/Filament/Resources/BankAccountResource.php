@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Http\Middleware\CheckAdmin;
 
 class BankAccountResource extends Resource
 {
@@ -20,6 +21,8 @@ class BankAccountResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-building-library';
 
     protected static ?string $navigationGroup = 'System Managements';
+
+    public static array|string $routeMiddleware = [CheckAdmin::class];
 
     public static function form(Form $form): Form
     {
@@ -101,4 +104,10 @@ class BankAccountResource extends Resource
     {
         return __('bankaccount.Bank Account');
     }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role_id == 'user_admin';
+    }
+
 }

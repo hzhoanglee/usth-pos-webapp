@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CouponResource extends Resource
@@ -107,7 +108,7 @@ class CouponResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -138,6 +139,21 @@ class CouponResource extends Resource
 
     public static function getModelLabel(): String{
         return __('coupon.Coupon');
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return auth()->user()->isAdministrator();
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->isAdministrator();
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return auth()->user()->isAdministrator();
     }
 
 }

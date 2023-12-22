@@ -21,6 +21,10 @@ Route::group(['middleware' => [], 'prefix' => '/call', ], function () {
     Route::post('/add-by-code', [App\Http\Controllers\CartController::class, 'addToCartByCode'])->name('cart.add-by-code');
 });
 
+Route::group(['middleware' => [], 'prefix' => '/call', ], function () {
+    Route::post('/check-face', [App\Http\Controllers\POSController::class, 'checkUserFace'])->name('pos.check-user-face');
+});
+
 Route::get('/my-role', [App\Http\Controllers\RoleController::class, 'myRole']);
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logOut'])->name('logout');
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'logIn'])->name('login');

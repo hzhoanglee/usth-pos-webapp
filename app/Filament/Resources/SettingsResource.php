@@ -72,4 +72,8 @@ class SettingsResource extends Resource
             'edit' => Pages\EditSettings::route('/{record}/edit'),
         ];
     }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role_id == 'user_admin';
+    }
 }

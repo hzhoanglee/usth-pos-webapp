@@ -50,4 +50,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsTo(Role::class, 'role_id', 'role_code');
     }
+
+    public function isAdministrator(): bool
+    {
+        return $this->role_id === 'user_admin';
+    }
 }

@@ -179,7 +179,7 @@
                                     </button>
                                 </div>
                                 <div class="col-sm-2 d-flex align-items-center">
-                                    <button type="button" onclick="alert('Dont Panic')" class="btn btn-primary ml-2 d-flex add-customer">
+                                    <button type="button" onclick="openCameraModal()" class="btn btn-primary ml-2 d-flex add-customer">
                                         Face
                                     </button>
                                 </div>
@@ -696,6 +696,10 @@
         });
     }
 
+    function showFaceCaptureModal() {
+        $('#n-face').modal('show');
+    }
+
 
 </script>
 <script>
@@ -732,6 +736,7 @@
                 console.log(data.msg_data);
                 console.log(data.msg_data.id);
                 $('#n-user').modal('hide');
+                $('#n-face').modal('hide');
                 let customer_box = $('#customerType');
                 customer_box.append('<option value="'+data.msg_data.id+'">'+data.msg_data.name+' - '+data.msg_data.phone+'</option>');
                 customer_box.val(data.msg_data.id).trigger('change');
@@ -813,5 +818,79 @@
         </div>
     </div>
 </div>
+
+<div class="modal" tabindex="-1" id="n-face" style="position: fixed; width: 100vw; padding: 50px;">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Coupon List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="camera-container"></div>
+
+                <button type="button" class="btn btn-primary" id="capture-btn">Capture and Post Image</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+<script>
+    function openCameraModal() {
+        $('#n-face').modal('show');
+        initCamera();
+    }
+
+    function initCamera() {
+        Webcam.set({
+            width: 640,
+            height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+
+        Webcam.attach('#camera-container');
+    }
+
+    // Function to capture and post image
+    function captureAndPostImage() {
+        // Capture the image from the webcam
+        Webcam.snap(function (data_uri) {
+            // Create a FormData object to send the image data
+            var formData = new FormData();
+            formData.append('image', data_uri);
+            formData.append('pos_screen', '{{$screen}}')
+
+            // Use ajax to send image data to the route {{route("pos.check-user-face")}}
+            $.ajax({
+                url: '{{route('pos.check-user-face')}}',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    let data = JSON.parse(response);
+                    $('#n-face').modal('hide');
+                    $('#n-user').modal('hide');
+                    $('#n-customer').modal('hide');
+                    let customer_box = $('#customerType');
+                    customer_box.val(data.msg_data.id).trigger('change');
+                    flasher.notyf.error("OK", {position: {x:'right',y:'top'}, dismissible: true});
+                },
+                error: function (response) {
+                    flasher.notyf.error(response.responseJSON.message, {position: {x:'right',y:'top'}, dismissible: true});
+                }
+            });
+        });
+        Webcam.reset();
+    }
+
+    // Attach click event listener to the capture button
+    document.getElementById('capture-btn').addEventListener('click', captureAndPostImage);
+    // listen if modal is closed
+    $('#n-face').on('hidden.bs.modal', function () {
+        Webcam.reset();
+    })
+</script>
 </body>
 </html>

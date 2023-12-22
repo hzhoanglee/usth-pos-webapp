@@ -82,4 +82,8 @@ class BankTransactionResource extends Resource
             'index' => Pages\ManageBankTransactions::route('/'),
         ];
     }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role_id == 'user_admin';
+    }
 }

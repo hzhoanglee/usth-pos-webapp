@@ -133,5 +133,9 @@ class UserResource extends Resource
     public static function getModelLabel(): String{
         return __('order.User');
     }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role_id == 'user_admin';
+    }
 
 }
