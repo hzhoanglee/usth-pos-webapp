@@ -19,12 +19,15 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard';
 
+    protected static ?string $navigationGroup = 'Order Managements';
+
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('order_id')
-                    ->name(__('order.Order ID'))
+                    ->label(__('order.Order ID'))
                     ->autofocus()
                     ->required()
                     ->unique()
@@ -63,7 +66,7 @@ class OrderResource extends Resource
                     ->required()
                     ->placeholder(__('order.Price after discount')),
                 Forms\Components\Select::make('status')
-                    ->name(__('order.Status'))
+                    ->label(__('order.Status'))
                     ->required()
                     ->options([
                         'OK' => __('order.OK'),
@@ -94,34 +97,34 @@ class OrderResource extends Resource
         return $table
             ->columns([
 
-                Tables\Columns\TextColumn::make('order_id')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('client')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('price_before_discount')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('apply_coupons')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('price_after_discount')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('id')
+                    ->label(__('order.Order ID'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('manager.Cashier'))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('order_date')
+                Tables\Columns\TextColumn::make('client.name')
+                    ->label(__('order.Client'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('value.total_due')
+                    ->label(__('order.Paid'))
+                    ->money('vnd')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('coupon')
+                    ->label(__('order.Apply coupons'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('payment_type')
+                    ->label(__('order.Payment method'))
                     ->searchable()
                     ->sortable(),
 
@@ -130,12 +133,12 @@ class OrderResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+//                Tables\Actions\BulkActionGroup::make([
+//                    Tables\Actions\DeleteBulkAction::make(),
+//                ]),
             ]);
     }
 
@@ -150,8 +153,9 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+//            'create' => Pages\CreateOrder::route('/create'),
+//            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'view' => Pages\ViewOrder::route('/{record}')
         ];
     }
 
@@ -160,5 +164,8 @@ class OrderResource extends Resource
         return __('order.Order');
     }
 
+    public static function getModelLabel(): String{
+        return __('order.Order');
+    }
 
 }

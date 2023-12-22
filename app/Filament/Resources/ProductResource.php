@@ -17,6 +17,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Business Managements';
     public static function form(Form $form): Form
     {
         return $form
@@ -36,22 +37,26 @@ class ProductResource extends Resource
                             #->required()
                             ->autocomplete(false)
                             ->placeholder(__('product.Product description')),
-                        Forms\Components\TextInput::make('product_image')->columnSpan(1)
+                        Forms\Components\FileUpload::make('product_image')->maxWidth(200)
                             ->name(__('product.Product image'))
-                            ->autofocus()
-                            #->required()
-                            ->autocomplete(false)
+                            ->disk('r2')
+                            ->directory(env('APP_ENV').'/products')
+                            ->visibility('public')
                             ->placeholder(__('product.Product image')),
                         Forms\Components\TextInput::make('quantity')
                             ->name(__('product.Quantity'))
                             ->autofocus()
                             ->required()
+                            ->default(0)
+                            ->type('number')->minValue(0)->maxValue(100)
                             ->autocomplete(false)
                             ->placeholder(__('product.Quantity')),
                         Forms\Components\TextInput::make('tax')
-                            ->name(__('product.Tax'))
+                            ->name(__('product.Tax') . " (%)")
                             ->autofocus()
-                            #->required()
+                            ->required()
+                            ->default(0)
+                            ->type('number')->minValue(0)->maxValue(100)
                             ->autocomplete(false)
                             ->placeholder(__('product.Tax')),
                         Forms\Components\TextInput::make('price_box_listing')
@@ -61,25 +66,42 @@ class ProductResource extends Resource
                             ->autocomplete(false)
                             ->placeholder(__('product.Price box listing')),
                         Forms\Components\TextInput::make('price_box_discounted')
+                            ->columns(2)
                             ->name(__('product.Price box discounted'))
                             ->autofocus()
                             ->required()
                             ->autocomplete(false)
                             ->placeholder(__('product.Price box discounted')),
-                        Forms\Components\TextInput::make('limit_by_age')
-                            ->name(__('product.Limit by age'))
+                        Forms\Components\TextInput::make('price_item_listing')
+                            ->name(__('product.Price item listing'))
                             ->autofocus()
                             #->required()
+                            ->autocomplete(false)
+                            ->placeholder(__('product.Price item listing')),
+                        Forms\Components\TextInput::make('price_item_discounted')
+                            ->name(__('product.Price item discounted'))
+                            ->autofocus()
+                            ->required()
+                            ->autocomplete(false)
+                            ->placeholder(__('product.Price item discounted')),
+                        Forms\Components\TextInput::make('limit_by_age')
+                            ->label(__('product.Limit by age'))
+                            ->autofocus()
+                            ->minValue(0)
+                            ->default(0)
+                            ->type('number')->minValue(0)->maxValue(100)
                             ->autocomplete(false)
                             ->placeholder(__('product.Limit by age')),
                         Forms\Components\TextInput::make('limit_per_order')
-                            ->name(__('product.Limit per order'))
+                            ->label(__('product.Limit per order'))
                             ->autofocus()
-                            #->required()
+                            ->required()
+                            ->default(0)
+                            ->type('number')->minValue(0)->maxValue(100)
                             ->autocomplete(false)
                             ->placeholder(__('product.Limit per order')),
                         Forms\Components\TextInput::make('SKU')
-                            ->name(__('product.SKU'))
+                            ->label(__('product.SKU'))
                             ->autofocus()
                             #->required()
                             ->autocomplete(false)
@@ -89,7 +111,17 @@ class ProductResource extends Resource
                             ->autofocus()
                             #->required()
                             ->autocomplete(false)
-                            ->placeholder(__('product.Barcode'))
+                            ->placeholder(__('product.Barcode')),
+                        Forms\Components\TextInput::make('ingredients')
+                            ->name("ingredients")
+                            ->autofocus()
+                            #->required()
+                            ->autocomplete(false)
+                            ->placeholder("ingredients"),
+                        Forms\Components\TextInput::make('brands')
+                            ->name("brands")
+                            ->autocomplete(false)
+                            ->placeholder("brands"),
                     ])
             ]);
     }

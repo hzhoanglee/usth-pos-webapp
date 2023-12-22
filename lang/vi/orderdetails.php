@@ -9,6 +9,7 @@ return [
     'Subtotal' => 'Tổng tiền hàng',
     'Status' => 'Trạng thái',
     'OK' => 'Hoàn thành',
-    'Refund' => 'Hoàn hàng'
+    'Refund' => 'Hoàn hàng',
+    'Unit Price' => 'Giá theo đơn vị'
 
 ];

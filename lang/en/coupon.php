@@ -3,13 +3,17 @@
 return [
 
     'Coupon' => 'Coupon',
-    'Coupon code' => 'Code',
-    'Started date' => 'Started date',
-    'Expired date' => 'Expired date',
-    'Coupon type' => 'Coupon type',
+    'Coupon Code' => 'Code',
+    'Started Date' => 'Started date',
+    'Expired Date' => 'Expired date',
+    'Coupon Type' => 'Coupon type',
     'Percentage' => 'Percentage',
     'Amount' => 'Amount',
     'Condition' => 'Condition',
     'Value' => 'Value',
-    'Coupon value' =>'Coupon value'
+    'Coupon Value' =>'Coupon value',
+    'Minimum bill value' => 'Minimum bill value',
+    'On product' => 'On product',
+    'Applied with other' => 'Applied with other',
+
 ];

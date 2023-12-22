@@ -24,29 +24,13 @@ return new class extends Migration
             $table->float('price_item_discounted', 20, 2)->default(0);
             $table->integer('limit_by_age')->default(0);
             $table->integer('limit_per_order')->default(0);
+            $table->string('ingredients')->default("");
+            $table->string('brands')->default("");
             $table->string('SKU', 100)->nullable()->default(null);
             $table->string('barcode', 100)->nullable()->default(null);
             $table->timestamps();
         });
 
-        // generate 10 fake products
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('products')->insert([
-                'product_name' => 'Product ' . $i,
-                'product_description' => 'Product ' . $i . ' description',
-                'product_image' => 'https://picsum.photos/200/300',
-                'quantity' => rand(0, 100),
-                'tax' => rand(0, 100),
-                'price_box_listing' => rand(0, 100),
-                'price_box_discounted' => rand(0, 100),
-                'price_item_listing' => rand(0, 100),
-                'price_item_discounted' => rand(0, 100),
-                'limit_by_age' => 2*$i,
-                'limit_per_order' => 2*$i,
-                'SKU' => 'SKU' . $i,
-                'barcode' => 'barcode' . $i,
-            ]);
-        }
     }
 
     /**

@@ -18,6 +18,8 @@ class CustomerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $navigationGroup = 'Business Managements';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -32,22 +34,22 @@ class CustomerResource extends Resource
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer name')),
                     Forms\Components\TextInput::make('mobile')->columnSpan(1)
-                        ->name(__('customer.Phone number'))
+                        ->label(__('customer.Phone number'))
                         ->autofocus()
                         #->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Phone number')),
                     Forms\Components\TextInput::make('email')->columnSpan(1)
-                        ->name(__('customer.Customer email'))
+                        ->label(__('customer.Customer email'))
                         ->autofocus()
                         #->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer email')),
-                    Forms\Components\TextInput::make('face')->maxWidth(200)
+                    Forms\Components\FileUpload::make('face')->maxWidth(200)
                         ->name(__('customer.Customer Face'))
-                        ->autofocus()
-                        ->required()
-                        ->autocomplete(false)
+                        ->disk('r2')
+                        ->directory(env('APP_ENV').'/customer')
+                        ->visibility('public')
                         ->placeholder(__('customer.Customer Face')),
                     Forms\Components\TextInput::make('address')
                         ->name(__('customer.Customer address'))
@@ -64,7 +66,7 @@ class CustomerResource extends Resource
                     Forms\Components\TextInput::make('credit')
                         ->name(__('customer.Customer credit'))
                         ->autofocus()
-                        ->required()
+//                        ->required()
                         ->autocomplete(false)
                         ->placeholder(__('customer.Customer credit')),
                     Forms\Components\TextInput::make('age')

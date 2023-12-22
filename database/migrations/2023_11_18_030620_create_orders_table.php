@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->float('price_before_discount', 8, 2)->nullable()->default(null);
-            $table->float('price_after_discount', 8, 2)->nullable()->default(null);
-            $table->string('apply_coupons', 191)->nullable()->default(null);
-            $table->enum('status', ['OK', 'Refund', 'Partly Refund'])->default('OK');
+            $table->string('customer_id', 50)->nullable()->default(null);
+            $table->string('cashier_id', 50)->nullable()->default(null);
+            $table->json('carts', 50)->nullable()->default(null);
+            $table->string('payment_type', 50)->nullable()->default(null);
+            $table->string('payment_record', 50)->nullable()->default(0);
+            $table->json('value')->nullable()->default(null);
             $table->timestamps();
-            $table->foreignId('cashier_name')->nullable()->default(null)->constrained('users');
-            $table->enum('client', ['Walk-in Customer', 'Registered Customer'])->default('OK');
-
         });
     }
 

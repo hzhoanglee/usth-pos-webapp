@@ -14,6 +14,9 @@ return [
     'Registered Customer' => 'Registered Customer',
     'OK' => 'OK',
     'Refund' => 'Refund',
-    'Partly refund' => 'Partly refund'
+    'Partly refund' => 'Partly refund',
+    'User' => 'User',
+    'Paid' => 'Paid',
+    'Payment method' => 'Payment method',
 
 ];

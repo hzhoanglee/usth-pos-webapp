@@ -13,7 +13,12 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'cashier_name', '_id');
+        return $this->belongsTo(User::class, 'cashier_id', '_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', '_id');
     }
 
 

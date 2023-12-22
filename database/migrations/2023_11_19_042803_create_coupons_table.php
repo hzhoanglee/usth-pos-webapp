@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('expired_date')->nullable()->default(null);
             $table->string('coupon_type')->nullable()->default(null);
             $table->string('coupon_condition')->nullable()->default(null);
+            $table->string('coupon_minimum_condition')->nullable()->default(null);
             $table->string('coupon_value')->nullable()->default(null);
             $table->timestamps();
         });
