@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class playground extends Command
 {
@@ -26,6 +27,20 @@ class playground extends Command
      */
     public function handle()
     {
-        $this->info('Hello World!');
+        $client = new \GuzzleHttp\Client();
+            // Log::info($this->record->id);
+            $client->request('POST', 'http://127.0.0.1:5500/post-face', [
+                // form params as body
+                'multipart' => [
+                    [
+                        'name'     => 'label',
+                        'contents' => '',
+                    ],
+                    [
+                        'name'     => 'fileUrl',
+                        'contents' => '',
+                    ],
+                ],
+            ]);
     }
 }
