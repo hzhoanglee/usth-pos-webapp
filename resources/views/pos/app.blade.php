@@ -11,8 +11,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">Your Logo</a>
-    <span class="datetime-indicator" id="datetime"></span>
+    <span class="datetime-indicator" style="margin-left: 1rem" id="datetime"></span>
 
 </nav>
 <div class="container d-flex m-0"><div class="screen_left shadow p-3 bg-white rounded">
@@ -217,7 +216,7 @@
                                         <button type="button" class="btn btn-secondary close-btn">Close</button>
                                     </div>
                                     <div class="col-sm-6">
-                                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                                        <button type="button" onclick="checkoutSuccess(1)" class="btn btn-primary submit-btn">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -285,7 +284,6 @@
 <div class="glass" id="blur" style="display: none"></div>
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
@@ -340,6 +338,7 @@
             }
         });
     }
+
 
     // Lock & Lock
     let popup = document.getElementById("overlay");
@@ -544,6 +543,14 @@
 
     }
 
+    // function getOrderList(){
+    //     $.ajax({
+    //         url: '{{route('get-order-list')}}',
+    //         method: 'GET',
+    //         console.log(response);
+    //     })
+    // }
+
     function update_total() {
         let cart_id = $('#cart_id').val();
         $.ajax({
@@ -598,10 +605,14 @@
 
     }
 
-    function checkoutSuccess() {
+    function checkoutSuccess(button=0) {
         let cart_id = $('#cart_id').val();
         let customer_id = $('#customerType').val();
         let payment_method = $('input[name=payment-method]:checked').val();
+        if(payment_method === 'bank-transfer' && button === 1) {
+            flasher.notyf.error("Please scan QR code to pay", {position: {x:'right',y:'top'}, dismissible: true});
+            return;
+        }
         $.ajax({
             url: '{{route('pos.perform-checkout')}}',
             method: 'POST',
@@ -827,6 +838,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                {{-- Choose camera --}}
+                <div class="form-group row">
+                    <label for="camera" class="col-sm-4 col-form-label">Camera:</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="cameraselector" onchange="changeCamera()">
+
+                        </select>
+                    </div>
+                </div>
                 <div id="camera-container"></div>
 
                 <button type="button" class="btn btn-primary" id="capture-btn">Capture and Post Image</button>
@@ -838,7 +858,32 @@
 <script>
     function openCameraModal() {
         $('#n-face').modal('show');
+        // Get the camera list
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            let camera_list = $('#cameraselector');
+            camera_list.empty();
+            devices.forEach(function (device) {
+                if (device.kind === 'videoinput') {
+                    camera_list.append('<option value="' + device.deviceId + '">' + device.label + '</option>');
+                }
+            });
+        });
         initCamera();
+    }
+
+    function changeCamera() {
+        Webcam.reset();
+        let camera_id = $('#cameraselector').val();
+        Webcam.set({
+            width: 640,
+            height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90,
+            constraints: {
+                deviceId: camera_id,
+            }
+        });
+        Webcam.attach('#camera-container');
     }
 
     function initCamera() {

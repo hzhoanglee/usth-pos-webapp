@@ -211,6 +211,18 @@ p{
     background-color: #0d6efd;
 }
 
+.couponBtn{
+    background-color: var(--system_primary_color);
+    color: var(--system-white);
+    transition: all .1s linear;
+    border: none;
+    padding: 0 2rem;
+    border-radius: .45rem;
+}
+
+.couponBtn:hover{
+    background-color: #0d6efd;
+}
 
 
 .count{
@@ -462,6 +474,7 @@ tr {
     z-index: 9999;
 }
 
+
 .glass{
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
     backdrop-filter: blur(10px);
@@ -483,3 +496,5 @@ tr {
 .form-group .col-sm-8 input::placeholder{
     color: var(--system-white);
 }
+
+

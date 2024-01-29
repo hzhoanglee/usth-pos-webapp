@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => '/cart', ], function () {
     Route::get('/get-coupons-list', [App\Http\Controllers\CartController::class, 'getCouponList'])->name('cart.get-coupon-list');
     Route::get('/apply-coupon', [App\Http\Controllers\CartController::class, 'applyCoupon'])->name('cart.apply-coupon');
     Route::post('/checkout', [App\Http\Controllers\CartController::class, 'generateCheckout'])->name('pos.perform-checkout');
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'getOrderList'])->name('get-order-list');
+
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => '/pos', ], function () {
